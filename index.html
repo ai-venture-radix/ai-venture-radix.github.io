@@ -1,0 +1,210 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <link rel="icon" type="image/png" sizes="128x128" href="/logo_128x128.png">
+  <link rel="icon" type="image/png" sizes="192x192" href="/logo_192x192.png">
+  <link rel="apple-touch-icon" sizes="192x192" href="/logo_192x192.png">
+  <link rel="stylesheet" href="styles.css">
+  <title>AI Ventures</title>
+</head>
+
+<body>
+
+<!-- ① DISCLAIMER -->
+<div class="modal active" id="disclaimer">
+  <div class="modal-box">
+    <img src="wallet-agent-ai.png" alt="AI Ventures" class="modal-logo">
+    <h2>AI Ventures</h2>
+    <p>This dApp is experimental. Use at your own risk.<br>Always verify transactions before signing.</p>
+    <button onclick="closeDisclaimer()">Enter</button>
+  </div>
+</div>
+
+<!-- ② HOW MODAL -->
+<div class="modal" id="howModal">
+  <div class="modal-box wide">
+    <h2 id="modalTitle"></h2>
+    <div id="modalContent"></div>
+    <button onclick="closeHow()">Close</button>
+  </div>
+</div>
+
+<!-- HEADER -->
+<div class="top-bar">
+  <div style="display:flex;align-items:center;gap:8px;">
+    <img src="wallet-agent-ai.png" alt="AI Ventures" class="logo-img">
+    <span class="header-title">
+      <span class="wallet">Company</span>
+      <span class="agent"> AI</span>
+      <span class="ai-small"> Ventures</span>
+    </span>
+  </div>
+  <div class="wallet-panel">
+    <radix-connect-button></radix-connect-button>
+    <div class="account-selector hidden" id="account-selector-container">
+      <label for="account-select">Active Account</label>
+      <select id="account-select"></select>
+    </div>
+  </div>
+</div>
+
+<!-- PENDING APPROVAL CARD -->
+<div id="pending-approval-card" class="pending-card disabled hidden" onclick="checkAndOpenPending()">
+  <span id="pending-icon">🔒</span>
+  <span id="pending-text">No Pending Approvals</span>
+</div>
+
+<!-- HERO -->
+<div class="hero">
+  <h1 class="app-title">
+    <span class="wallet">Company</span>
+    <span class="agent"> AI</span><br>
+    <span class="ai">Ventures</span>
+  </h1>
+  <p class="app-subtitle">
+    AI agents run off-chain.<br>
+    The company economy lives on Radix.
+  </p>
+</div>
+
+
+<!-- CREATE COMPANY CARD — shown when no company exists -->
+<section class="grid grid-1 hidden" id="create-company-card">
+  <div class="card" onclick="showInstantiateModal()" style="cursor:pointer;text-align:center;padding:40px;">
+    <h3>🚀 Create Your AI Venture Company</h3>
+    <p>Deploy your company on Radix. You will receive the Founder Badge in your wallet.</p>
+    <p style="color:#276ff5;font-weight:600;margin-top:16px;">Click to get started →</p>
+  </div>
+</section>
+
+
+
+
+<!-- OWNER LOCKED — shown when no badge detected -->
+<section class="grid grid-1" id="owner-locked">
+  <div class="card disabled" id="owner-control-card">
+    <h3>🔒 Connect your Radix Wallet</h3>
+    <p>Connect a wallet that holds a Founder Badge or Agent Badge to access the dashboard.</p>
+  </div>
+</section>
+
+<!-- COMPANY OVERVIEW — hidden until badge detected -->
+<section id="company-section" class="hidden">
+  <div class="card" id="company-overview">
+    <!-- Filled by renderCompanyOverview() -->
+    <p style="color:#8b949e;font-size:13px;">Loading company data...</p>
+  </div>
+</section>
+
+<!-- AGENTS TABLE — hidden until badge detected -->
+<section id="agents-section" class="hidden">
+  <div class="card">
+    <h3>👾 AI Agents</h3>
+    <div id="agents-table">
+      <!-- Filled by renderAgentsTable() -->
+    </div>
+  </div>
+</section>
+
+<!-- FOUNDER CONTROLS — hidden until FounderBadge detected -->
+<section id="founder-controls" class="hidden">
+
+  <!-- Row 0: Session -->
+  <div id="session-card-container"></div>
+
+  <!-- Row 1: Core actions -->
+  <div class="grid grid-3">
+    <div class="card" onclick="deposit()">
+      <h3>💰 Deposit</h3>
+      <p>Send XRD into the company treasury.</p>
+    </div>
+    <div class="card" onclick="depositWithSplit()">
+      <h3>⚡ Pay Company</h3>
+      <p>Customer payment — auto-split 60/25/10/5.</p>
+    </div>
+    <div class="card" onclick="toggleWhitelist()">
+      <h3>📋 Whitelist</h3>
+      <p>Add or remove destination wallets.</p>
+    </div>
+  </div>
+
+  <!-- Row 2: Agent management -->
+  <div class="grid grid-3">
+    <div class="card" onclick="mintAgentBadge()">
+      <h3>🪪 Mint Agent Badge</h3>
+      <p>Create a new agent with role and spending limits.</p>
+    </div>
+    <div class="card" onclick="revokeBadge()">
+      <h3>🔴 Revoke Badge</h3>
+      <p>Deactivate an agent badge.</p>
+    </div>
+    <div class="card" onclick="updateSplits()">
+      <h3>📊 Update Splits</h3>
+      <p>Reconfigure revenue split percentages.</p>
+    </div>
+  </div>
+
+  <!-- Row 3: Advanced controls -->
+  <div class="grid grid-2">
+    <div class="card card-sm" onclick="viewBalances()">
+      <h3>📈 View Balances</h3>
+      <p>Check treasury and vault balances.</p>
+    </div>
+    <div class="card card-sm" onclick="openLimitsModal()">
+      <h3>⚙️ Limits & Daily Cap</h3>
+      <p>Raise spending thresholds or reset daily counter.</p>
+    </div>
+  </div>
+
+  <!-- Row 4: Emergency -->
+  <div class="grid grid-1">
+    <div class="card card-sm" id="emergency-card" onclick="openEmergencyModal()">
+      <h3>🔴 Emergency Controls</h3>
+      <p>Freeze, unfreeze or withdraw all funds.</p>
+    </div>
+  </div>
+
+</section>
+
+<!-- AGENT CONTROLS — hidden until AgentBadge detected -->
+<section id="agent-controls" class="hidden">
+
+  <div class="grid grid-2">
+    <div class="card" onclick="checkAndOpenPending()">
+      <h3>📬 My Pending Actions</h3>
+      <p>View actions waiting for founder approval.</p>
+    </div>
+    <div class="card" onclick="viewBalances()">
+      <h3>📈 Company Balances</h3>
+      <p>Check current treasury balance.</p>
+    </div>
+  </div>
+
+</section>
+
+<!-- FOOTER -->
+<footer class="app-footer">
+  <div class="footer-column">
+    <h2>Quick Links</h2>
+    <a href="#" onclick="event.preventDefault(); openAbout();">About</a>
+    <a href="https://t.me/agent_wallet_ai_radix" target="_blank">Telegram</a>
+  </div>
+  <div class="footer-column">
+    <h2>Resources</h2>
+    <a href="#" onclick="event.preventDefault(); openHow();">How it Works</a>
+    <a href="#" onclick="event.preventDefault(); openTerms();">Terms & Conditions</a>
+    <a href="#" onclick="event.preventDefault(); openDisclaimer();">Disclaimer</a>
+    <a href="#" onclick="event.preventDefault(); openPrivacy();">Privacy Note</a>
+    <a href="https://t.me/linuxx_xrd" target="_blank">Contact</a>
+  </div>
+  <div class="footer-column footer-logo">
+    <img src="Radix-logo.png" class="footer-logo-img" alt="Radix">
+  </div>
+</footer>
+
+<script type="module" src="main.js"></script>
+
+</body>
+</html>

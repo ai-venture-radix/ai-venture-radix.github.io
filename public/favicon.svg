@@ -1,0 +1,63 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" width="512" height="512">
+  <defs>
+    <linearGradient id="gCircle" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#00E5FF"/>
+      <stop offset="100%" stop-color="#1A56FF"/>
+    </linearGradient>
+    <linearGradient id="gWallet" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#1A56FF"/>
+      <stop offset="100%" stop-color="#0A1A6E"/>
+    </linearGradient>
+    <linearGradient id="gWalletTop" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#2266FF"/>
+      <stop offset="100%" stop-color="#1040CC"/>
+    </linearGradient>
+    <linearGradient id="gClasp" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#1E5AFF"/>
+      <stop offset="100%" stop-color="#0D2E99"/>
+    </linearGradient>
+    <linearGradient id="gRobot" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#2277FF"/>
+      <stop offset="100%" stop-color="#0D40CC"/>
+    </linearGradient>
+    <filter id="glow">
+      <feGaussianBlur stdDeviation="3" result="blur"/>
+      <feMerge><feMergeNode in="blur"/><feMergeNode in="SourceGraphic"/></feMerge>
+    </filter>
+  </defs>
+
+  <!-- Orbit arc (open circle, top-left gap) -->
+  <path d="M 256 60 A 196 196 0 1 1 130 108" fill="none" stroke="url(#gCircle)" stroke-width="10" stroke-linecap="round"/>
+
+  <!-- Pixel dots top-right -->
+  <rect x="378" y="88"  width="22" height="22" rx="4" fill="#00AAFF"/>
+  <rect x="406" y="112" width="16" height="16" rx="3" fill="#0066FF"/>
+  <rect x="400" y="72"  width="14" height="14" rx="3" fill="#00CCFF"/>
+  <rect x="422" y="90"  width="10" height="10" rx="2" fill="#0088FF" opacity="0.7"/>
+
+  <!-- Wallet body -->
+  <rect x="128" y="185" width="280" height="210" rx="28" fill="url(#gWallet)" stroke="#2255CC" stroke-width="2"/>
+
+  <!-- Wallet flap (top fold) -->
+  <rect x="148" y="158" width="240" height="60" rx="18" fill="url(#gWalletTop)" stroke="#2255CC" stroke-width="2"/>
+
+  <!-- Clasp (right side bump) -->
+  <rect x="370" y="258" width="52" height="52" rx="14" fill="url(#gClasp)" stroke="#1A44BB" stroke-width="2"/>
+  <circle cx="396" cy="284" r="10" fill="#00CCFF" filter="url(#glow)"/>
+
+  <!-- Robot face body -->
+  <rect x="188" y="228" width="148" height="88" rx="28" fill="url(#gRobot)" stroke="#1A44BB" stroke-width="2"/>
+
+  <!-- Antenna stem -->
+  <line x1="262" y1="228" x2="262" y2="198" stroke="#4488FF" stroke-width="6" stroke-linecap="round"/>
+  <!-- Antenna ball -->
+  <circle cx="262" cy="190" r="10" fill="#00CCFF" filter="url(#glow)"/>
+
+  <!-- Eyes -->
+  <circle cx="232" cy="272" r="12" fill="#00CCFF" filter="url(#glow)"/>
+  <circle cx="292" cy="272" r="12" fill="#00CCFF" filter="url(#glow)"/>
+
+  <!-- Eye inner shine -->
+  <circle cx="228" cy="268" r="4" fill="#AAEEFF" opacity="0.7"/>
+  <circle cx="288" cy="268" r="4" fill="#AAEEFF" opacity="0.7"/>
+</svg>
