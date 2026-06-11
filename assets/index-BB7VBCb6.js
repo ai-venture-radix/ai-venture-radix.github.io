@@ -68,7 +68,7 @@ var e=Object.create,t=Object.defineProperty,n=Object.getOwnPropertyDescriptor,r=
     <div class="modal-actions">
       <button id="confirmActionBtn">${n}</button>
     </div>`}
-  `,document.getElementById(`howModal`).classList.add(`active`),i||(document.getElementById(`confirmActionBtn`).onclick=async()=>{try{Q(),await r()}catch(e){console.error(e)}})}async function Vu(e){try{console.log(`Sending TX...`,e);let t=await Bd.walletApi.sendTransaction({transactionManifest:e,version:1});return t.isErr()?(console.error(`TX ERROR:`,t.error),null):(console.log(`TX SUCCESS:`,t.value),Z.activeAccount&&await td(Z.activeAccount),t.value)}catch(e){return console.error(`sendTransaction failed:`,e),null}}function Hu(e,t){return`
+  `,document.getElementById(`howModal`).classList.add(`active`),i||(document.getElementById(`confirmActionBtn`).onclick=async()=>{try{Q(),await r()}catch(e){console.error(e)}})}async function Vu(e){try{console.log(`Sending TX...`,e);let t=await Hd.walletApi.sendTransaction({transactionManifest:e,version:1});return t.isErr()?(console.error(`TX ERROR:`,t.error),null):(console.log(`TX SUCCESS:`,t.value),Z.activeAccount&&await td(Z.activeAccount),t.value)}catch(e){return console.error(`sendTransaction failed:`,e),null}}function Hu(e,t){return`
 CALL_METHOD
     Address("${Z.activeAccount.address}")
     "create_proof_of_amount"
@@ -211,7 +211,7 @@ CALL_METHOD
     Enum<0u8>()
 ;
 `),console.log(`[pending] APPROVE MANIFEST:
-`,t);try{await Vu(t),Yu(null),(e.type===`MintAgentBadge`||e.type===`RevokeAgentBadge`)&&await Vd()}catch(e){console.error(`[pending] approve error:`,e),alert(`Transaction failed. Check console for details.`)}}async function $u(){let e=`
+`,t);try{await Vu(t),Yu(null),(e.type===`MintAgentBadge`||e.type===`RevokeAgentBadge`)&&await Ud()}catch(e){console.error(`[pending] approve error:`,e),alert(`Transaction failed. Check console for details.`)}}async function $u(){let e=`
 CALL_METHOD
     Address("${Z.activeAccount.address}")
     "create_proof_of_amount"
@@ -585,48 +585,70 @@ CALL_METHOD
     Bucket("badge_bucket")
 ;
 `;console.log(`[revokeBadge] manifest:
-`,l);try{await Vu(l),Q();let e=(Z.agentBadges||[]).filter(e=>e.active).length;for(let t=0;t<10&&(await new Promise(e=>setTimeout(e,3e3)),await Vd(o,s),!((Z.agentBadges||[]).filter(e=>e.active).length<e));t++);}catch(e){console.error(`[revokeBadge] error:`,e),alert(`Transaction failed. Check console for details.`)}}async function Ad(e){try{let t=(await(await fetch(`${X.GATEWAY_URL}/state/entity/details`,{method:`POST`,headers:{"Content-Type":`application/json`},body:JSON.stringify({addresses:[e],aggregation_level:`Vault`})})).json())?.items?.[0]?.non_fungible_resources?.items||[];for(let e of t)if(e.resource_address===Z.agentBadgeResource)return e.vaults?.items?.[0]?.vault_address||null;return null}catch(e){return console.error(`[revokeBadge] getAgentBadgeVault error:`,e),null}}var jd=[`Marketing`,`Designer`,`Research`];function Md(){if(!Z.isFounder){alert(`Only the Founder can mint agent badges.`);return}$({title:`🪪 Mint Agent Badge`,hideConfirm:!0,content:`
+`,l);try{await Vu(l),Q();let e=(Z.agentBadges||[]).filter(e=>e.active).length;for(let t=0;t<10&&(await new Promise(e=>setTimeout(e,3e3)),await Ud(o,s),!((Z.agentBadges||[]).filter(e=>e.active).length<e));t++);}catch(e){console.error(`[revokeBadge] error:`,e),alert(`Transaction failed. Check console for details.`)}}async function Ad(e){try{let t=(await(await fetch(`${X.GATEWAY_URL}/state/entity/details`,{method:`POST`,headers:{"Content-Type":`application/json`},body:JSON.stringify({addresses:[e],aggregation_level:`Vault`})})).json())?.items?.[0]?.non_fungible_resources?.items||[];for(let e of t)if(e.resource_address===Z.agentBadgeResource)return e.vaults?.items?.[0]?.vault_address||null;return null}catch(e){return console.error(`[revokeBadge] getAgentBadgeVault error:`,e),null}}var jd=[`Marketing`,`Designer`,`Research`],Md=!!X.SESSION_MANAGER_URL&&!X.SESSION_MANAGER_URL.includes(`your-app`);function Nd(){if(!Z.isFounder){alert(`Only the Founder can mint agent badges.`);return}let e=Md?`
+      <div style="padding:10px;border-radius:8px;background:#0d1117;border:1px solid #276ff5;">
+        <p style="font-size:12px;color:#276ff5;margin:0;">
+          🤖 The system will automatically create and fund the agent account.
+        </p>
+        <p style="font-size:11px;color:#555;margin:4px 0 0;">
+          Only in self-hosted mode does the founder need to provide an address.
+        </p>
+      </div>`:`
+      <div>
+        <label style="font-size:12px;color:#8b949e;display:block;margin-bottom:4px;">
+          Destination Account (receives the badge)
+        </label>
+        <input id="mint-destination" type="text" placeholder="account_tdx_2_1..."
+          style="width:100%;padding:10px;border-radius:8px;background:#0d1117;
+            border:1px solid #30363d;color:#e6edf3;font-size:14px;
+            box-sizing:border-box;font-family:monospace;">
+      </div>`;$({title:`🪪 Mint Agent Badge`,hideConfirm:!0,content:`
       <div style="display:flex;flex-direction:column;gap:14px;margin-top:8px;">
 
         <div>
           <label style="font-size:12px;color:#8b949e;display:block;margin-bottom:4px;">Agent Name</label>
           <input id="mint-agent-name" type="text" placeholder="e.g. Marketing Agent #1"
-            style="width:100%;padding:10px;border-radius:8px;background:#0d1117;border:1px solid #30363d;color:#e6edf3;font-size:14px;box-sizing:border-box;">
+            style="width:100%;padding:10px;border-radius:8px;background:#0d1117;
+              border:1px solid #30363d;color:#e6edf3;font-size:14px;box-sizing:border-box;">
         </div>
 
         <div>
           <label style="font-size:12px;color:#8b949e;display:block;margin-bottom:4px;">Role</label>
           <select id="mint-agent-role"
-            style="width:100%;padding:10px;border-radius:8px;background:#0d1117;border:1px solid #30363d;color:#e6edf3;font-size:14px;box-sizing:border-box;">
+            style="width:100%;padding:10px;border-radius:8px;background:#0d1117;
+              border:1px solid #30363d;color:#e6edf3;font-size:14px;box-sizing:border-box;">
             ${jd.map(e=>`<option value="${e}">${e}</option>`).join(``)}
           </select>
         </div>
 
         <div>
-          <label style="font-size:12px;color:#8b949e;display:block;margin-bottom:4px;">Spending Limit (XRD per transaction)</label>
+          <label style="font-size:12px;color:#8b949e;display:block;margin-bottom:4px;">
+            Spending Limit (XRD per transaction)
+          </label>
           <input id="mint-spending-limit" type="number" placeholder="10" min="0.01" step="0.01"
-            style="width:100%;padding:10px;border-radius:8px;background:#0d1117;border:1px solid #30363d;color:#e6edf3;font-size:14px;box-sizing:border-box;">
+            style="width:100%;padding:10px;border-radius:8px;background:#0d1117;
+              border:1px solid #30363d;color:#e6edf3;font-size:14px;box-sizing:border-box;">
         </div>
 
         <div>
-          <label style="font-size:12px;color:#8b949e;display:block;margin-bottom:4px;">Revenue Share (0.0 – 1.0, e.g. 0.25 = 25%)</label>
+          <label style="font-size:12px;color:#8b949e;display:block;margin-bottom:4px;">
+            Revenue Share (0.0 – 1.0, e.g. 0.25 = 25%)
+          </label>
           <input id="mint-revenue-share" type="number" placeholder="0.25" min="0" max="1" step="0.01"
-            style="width:100%;padding:10px;border-radius:8px;background:#0d1117;border:1px solid #30363d;color:#e6edf3;font-size:14px;box-sizing:border-box;">
+            style="width:100%;padding:10px;border-radius:8px;background:#0d1117;
+              border:1px solid #30363d;color:#e6edf3;font-size:14px;box-sizing:border-box;">
         </div>
 
-        <div>
-          <label style="font-size:12px;color:#8b949e;display:block;margin-bottom:4px;">Destination Account (receives the badge)</label>
-          <input id="mint-destination" type="text" placeholder="account_tdx_2_1..."
-            style="width:100%;padding:10px;border-radius:8px;background:#0d1117;border:1px solid #30363d;color:#e6edf3;font-size:14px;box-sizing:border-box;font-family:monospace;">
-        </div>
+        ${e}
 
         <button id="btn-mint-confirm"
-          style="padding:12px;border-radius:8px;background:#276ff5;color:white;border:none;cursor:pointer;font-size:15px;font-weight:600;">
+          style="padding:12px;border-radius:8px;background:#276ff5;color:white;
+            border:none;cursor:pointer;font-size:15px;font-weight:600;">
           🪪 Mint Badge
         </button>
 
       </div>
-    `}),setTimeout(()=>{document.getElementById(`btn-mint-confirm`)?.addEventListener(`click`,async()=>{let e=document.getElementById(`mint-agent-name`)?.value?.trim(),t=document.getElementById(`mint-agent-role`)?.value,n=document.getElementById(`mint-spending-limit`)?.value?.trim(),r=document.getElementById(`mint-revenue-share`)?.value?.trim(),i=document.getElementById(`mint-destination`)?.value?.trim();if(!e){alert(`Agent name is required.`);return}if(!n||parseFloat(n)<=0){alert(`Spending limit must be greater than 0.`);return}let a=parseFloat(r);if(isNaN(a)||a<0||a>1){alert(`Revenue share must be between 0 and 1.`);return}if(!i||!i.startsWith(`account_`)){alert(`Invalid destination account address.`);return}Q(),await Nd(e,t,n,r,i)})},50)}async function Nd(e,t,n,r,i){let a=Z.activeAccount.address,o=Z.founderBadgeAddress,s=Z.componentAddress,c=Z.componentAddress,l=Z.isFounder,u=`
+    `}),setTimeout(()=>{document.getElementById(`btn-mint-confirm`)?.addEventListener(`click`,async()=>{let e=document.getElementById(`mint-agent-name`)?.value?.trim(),t=document.getElementById(`mint-agent-role`)?.value,n=document.getElementById(`mint-spending-limit`)?.value?.trim(),r=document.getElementById(`mint-revenue-share`)?.value?.trim();if(!e){alert(`Agent name is required.`);return}if(!n||parseFloat(n)<=0){alert(`Spending limit must be greater than 0.`);return}let i=parseFloat(r);if(isNaN(i)||i<0||i>1){alert(`Revenue share must be between 0 and 1.`);return}let a;if(Md){if(a=await Pd(e,t),!a)return}else if(a=document.getElementById(`mint-destination`)?.value?.trim(),!a||!a.startsWith(`account_`)){alert(`Invalid destination account address.`);return}Q(),await Fd(e,t,n,r,a)})},50)}async function Pd(e,t){try{let n=await fetch(`${X.SESSION_MANAGER_URL}/agent/create-account`,{method:`POST`,headers:{"Content-Type":`application/json`},body:JSON.stringify({companyAddress:Z.componentAddress,agentName:e,role:t,network:`stokenet`})});if(!n.ok){let e=await n.json();return alert(`Failed to create agent account: ${e.error}`),null}let r=await n.json();return console.log(`[mintAgentBadge] Agent account created:`,r.address),r.address}catch(e){return alert(`Session manager unreachable: ${e.message}`),null}}async function Fd(e,t,n,r,i){let a=Z.activeAccount.address,o=Z.founderBadgeAddress,s=Z.componentAddress,c=Z.componentAddress,l=Z.isFounder,u=`
 CALL_METHOD
     Address("${a}")
     "create_proof_of_amount"
@@ -644,7 +666,7 @@ CALL_METHOD
     "${i}"
 ;
 `;console.log(`[mintAgentBadge] manifest:
-`,u);try{await Vu(u),Q();let e=(Z.agentBadges||[]).length;for(let t=0;t<10&&(await new Promise(e=>setTimeout(e,3e3)),await Vd(c,l),!((Z.agentBadges||[]).length>e));t++);}catch(e){console.error(`[mintAgentBadge] error:`,e),alert(`Transaction failed. Check console for details.`)}}function Pd(){let e=(Z.agentBadges||[]).filter(e=>e.active),t=e.length>0?e.map(e=>`<option value="${e.id}">${e.agent_name} (${e.role}) — ID ${e.id}</option>`).join(``):`<option value="" disabled>No active agents yet</option>`;$({title:`⚡ Pay Company — Auto Split`,hideConfirm:!0,content:`
+`,u);try{await Vu(u),Q();let e=(Z.agentBadges||[]).length;for(let t=0;t<10&&(await new Promise(e=>setTimeout(e,3e3)),await Ud(c,l),!((Z.agentBadges||[]).length>e));t++);}catch(e){console.error(`[mintAgentBadge] error:`,e),alert(`Transaction failed. Check console for details.`)}}function Id(){let e=(Z.agentBadges||[]).filter(e=>e.active),t=e.length>0?e.map(e=>`<option value="${e.id}">${e.agent_name} (${e.role}) — ID ${e.id}</option>`).join(``):`<option value="" disabled>No active agents yet</option>`;$({title:`⚡ Pay Company — Auto Split`,hideConfirm:!0,content:`
       <div style="display:flex;flex-direction:column;gap:14px;margin-top:8px;">
 
         <!-- Split preview -->
@@ -710,7 +732,7 @@ CALL_METHOD
         <span style="color:#d2a8ff;">${(t*X.SPLIT_CONTRIBUTOR).toFixed(4)} XRD</span>
         <span style="color:#8b949e;">Platform</span>
         <span style="color:#ffa657;">${(t*X.SPLIT_PLATFORM).toFixed(4)} XRD</span>
-      `}}),document.getElementById(`btn-split-confirm`)?.addEventListener(`click`,async()=>{let e=document.getElementById(`split-amount`)?.value?.trim(),t=document.getElementById(`split-agent-account`)?.value?.trim();if(!e||parseFloat(e)<=0){alert(`Amount must be greater than 0.`);return}if(!t||!t.startsWith(`account_`)){alert(`Invalid agent account address.`);return}Q(),await Fd(e,t)})},50)}async function Fd(e,t){let n=Z.activeAccount.address,r=X.COMPONENT_ADDRESS,i=X.XRD,a=`
+      `}}),document.getElementById(`btn-split-confirm`)?.addEventListener(`click`,async()=>{let e=document.getElementById(`split-amount`)?.value?.trim(),t=document.getElementById(`split-agent-account`)?.value?.trim();if(!e||parseFloat(e)<=0){alert(`Amount must be greater than 0.`);return}if(!t||!t.startsWith(`account_`)){alert(`Invalid agent account address.`);return}Q(),await Ld(e,t)})},50)}async function Ld(e,t){let n=Z.activeAccount.address,r=X.COMPONENT_ADDRESS,i=X.XRD,a=`
 CALL_METHOD
     Address("${n}")
     "withdraw"
@@ -728,7 +750,7 @@ CALL_METHOD
     Address("${t}")
 ;
 `;console.log(`[depositWithSplit] manifest:
-`,a);try{await Vu(a),await Vd()}catch(e){console.error(`[depositWithSplit] error:`,e),alert(`Transaction failed. Check console for details.`)}}function Id(){if(!Z.isFounder){alert(`Only the Founder can update revenue splits.`);return}$({title:`📊 Update Revenue Splits`,hideConfirm:!0,content:`
+`,a);try{await Vu(a),await Ud()}catch(e){console.error(`[depositWithSplit] error:`,e),alert(`Transaction failed. Check console for details.`)}}function Rd(){if(!Z.isFounder){alert(`Only the Founder can update revenue splits.`);return}$({title:`📊 Update Revenue Splits`,hideConfirm:!0,content:`
       <div style="display:flex;flex-direction:column;gap:14px;margin-top:8px;">
 
         <p style="font-size:13px;color:#8b949e;margin:0;">
@@ -771,7 +793,7 @@ CALL_METHOD
         </button>
 
       </div>
-    `}),setTimeout(()=>{let e=[`split-treasury`,`split-agent`,`split-contributor`,`split-platform`];function t(){let t=e.reduce((e,t)=>e+(parseFloat(document.getElementById(t)?.value)||0),0),n=document.getElementById(`split-sum-display`);n&&(n.textContent=`${t}%`,n.style.color=t===100?`#3fb950`:`#f85149`)}t(),e.forEach(e=>{document.getElementById(e)?.addEventListener(`input`,t)}),document.getElementById(`btn-splits-confirm`)?.addEventListener(`click`,async()=>{let e=parseFloat(document.getElementById(`split-treasury`)?.value)||0,t=parseFloat(document.getElementById(`split-agent`)?.value)||0,n=parseFloat(document.getElementById(`split-contributor`)?.value)||0,r=parseFloat(document.getElementById(`split-platform`)?.value)||0,i=e+t+n+r;if(i!==100){alert(`Splits must sum to 100%. Current total: ${i}%`);return}Q(),await Ld((e/100).toFixed(2),(t/100).toFixed(2),(n/100).toFixed(2),(r/100).toFixed(2))})},50)}async function Ld(e,t,n,r){let i=`
+    `}),setTimeout(()=>{let e=[`split-treasury`,`split-agent`,`split-contributor`,`split-platform`];function t(){let t=e.reduce((e,t)=>e+(parseFloat(document.getElementById(t)?.value)||0),0),n=document.getElementById(`split-sum-display`);n&&(n.textContent=`${t}%`,n.style.color=t===100?`#3fb950`:`#f85149`)}t(),e.forEach(e=>{document.getElementById(e)?.addEventListener(`input`,t)}),document.getElementById(`btn-splits-confirm`)?.addEventListener(`click`,async()=>{let e=parseFloat(document.getElementById(`split-treasury`)?.value)||0,t=parseFloat(document.getElementById(`split-agent`)?.value)||0,n=parseFloat(document.getElementById(`split-contributor`)?.value)||0,r=parseFloat(document.getElementById(`split-platform`)?.value)||0,i=e+t+n+r;if(i!==100){alert(`Splits must sum to 100%. Current total: ${i}%`);return}Q(),await zd((e/100).toFixed(2),(t/100).toFixed(2),(n/100).toFixed(2),(r/100).toFixed(2))})},50)}async function zd(e,t,n,r){let i=`
 CALL_METHOD
     Address("${Z.activeAccount.address}")
     "create_proof_of_amount"
@@ -787,7 +809,7 @@ CALL_METHOD
     Decimal("${r}")
 ;
 `;console.log(`[updateSplits] manifest:
-`,i);try{await Vu(i),X.SPLIT_TREASURY=parseFloat(e),X.SPLIT_AGENT=parseFloat(t),X.SPLIT_CONTRIBUTOR=parseFloat(n),X.SPLIT_PLATFORM=parseFloat(r),alert(`Revenue splits updated successfully.`)}catch(e){console.error(`[updateSplits] error:`,e),alert(`Transaction failed. Check console for details.`)}}function Rd(){$({title:`🚀 Create Your AI Venture Company`,hideConfirm:!0,content:`
+`,i);try{await Vu(i),X.SPLIT_TREASURY=parseFloat(e),X.SPLIT_AGENT=parseFloat(t),X.SPLIT_CONTRIBUTOR=parseFloat(n),X.SPLIT_PLATFORM=parseFloat(r),alert(`Revenue splits updated successfully.`)}catch(e){console.error(`[updateSplits] error:`,e),alert(`Transaction failed. Check console for details.`)}}function Bd(){$({title:`🚀 Create Your AI Venture Company`,hideConfirm:!0,content:`
       <div style="display:flex;flex-direction:column;gap:14px;margin-top:8px;">
 
         <p style="font-size:13px;color:#8b949e;margin:0;">
@@ -862,7 +884,7 @@ CALL_METHOD
         </button>
 
       </div>
-    `}),setTimeout(()=>{let e=[`inst-split-treasury`,`inst-split-agent`,`inst-split-contributor`,`inst-split-platform`];function t(){let t=e.reduce((e,t)=>e+(parseFloat(document.getElementById(t)?.value)||0),0),n=document.getElementById(`inst-split-sum`);n&&(n.textContent=`${t}%`,n.style.color=t===100?`#3fb950`:`#f85149`)}t(),e.forEach(e=>document.getElementById(e)?.addEventListener(`input`,t)),document.getElementById(`btn-instantiate-confirm`)?.addEventListener(`click`,async()=>{let e=document.getElementById(`inst-company-name`)?.value?.trim(),t=document.getElementById(`inst-max-tx`)?.value?.trim(),n=document.getElementById(`inst-multisig`)?.value?.trim(),r=document.getElementById(`inst-daily-cap`)?.value?.trim(),i=document.getElementById(`inst-contributor`)?.value?.trim(),a=parseFloat(document.getElementById(`inst-split-treasury`)?.value)||0,o=parseFloat(document.getElementById(`inst-split-agent`)?.value)||0,s=parseFloat(document.getElementById(`inst-split-contributor`)?.value)||0,c=parseFloat(document.getElementById(`inst-split-platform`)?.value)||0;if(!e){alert(`Company name is required.`);return}if(!i||!i.startsWith(`account_`)){alert(`Invalid contributor account address.`);return}let l=a+o+s+c;if(l!==100){alert(`Revenue splits must sum to 100%. Current: ${l}%`);return}Q(),await zd({companyName:e,maxTx:t,multisig:n,dailyCap:r,contributor:i,splitTreasury:(a/100).toFixed(2),splitAgent:(o/100).toFixed(2),splitContrib:(s/100).toFixed(2),splitPlatform:(c/100).toFixed(2)})})},50)}async function zd({companyName:e,maxTx:t,multisig:n,dailyCap:r,contributor:i,splitTreasury:a,splitAgent:o,splitContrib:s,splitPlatform:c}){let l=Z.activeAccount.address,u=`
+    `}),setTimeout(()=>{let e=[`inst-split-treasury`,`inst-split-agent`,`inst-split-contributor`,`inst-split-platform`];function t(){let t=e.reduce((e,t)=>e+(parseFloat(document.getElementById(t)?.value)||0),0),n=document.getElementById(`inst-split-sum`);n&&(n.textContent=`${t}%`,n.style.color=t===100?`#3fb950`:`#f85149`)}t(),e.forEach(e=>document.getElementById(e)?.addEventListener(`input`,t)),document.getElementById(`btn-instantiate-confirm`)?.addEventListener(`click`,async()=>{let e=document.getElementById(`inst-company-name`)?.value?.trim(),t=document.getElementById(`inst-max-tx`)?.value?.trim(),n=document.getElementById(`inst-multisig`)?.value?.trim(),r=document.getElementById(`inst-daily-cap`)?.value?.trim(),i=document.getElementById(`inst-contributor`)?.value?.trim(),a=parseFloat(document.getElementById(`inst-split-treasury`)?.value)||0,o=parseFloat(document.getElementById(`inst-split-agent`)?.value)||0,s=parseFloat(document.getElementById(`inst-split-contributor`)?.value)||0,c=parseFloat(document.getElementById(`inst-split-platform`)?.value)||0;if(!e){alert(`Company name is required.`);return}if(!i||!i.startsWith(`account_`)){alert(`Invalid contributor account address.`);return}let l=a+o+s+c;if(l!==100){alert(`Revenue splits must sum to 100%. Current: ${l}%`);return}Q(),await Vd({companyName:e,maxTx:t,multisig:n,dailyCap:r,contributor:i,splitTreasury:(a/100).toFixed(2),splitAgent:(o/100).toFixed(2),splitContrib:(s/100).toFixed(2),splitPlatform:(c/100).toFixed(2)})})},50)}async function Vd({companyName:e,maxTx:t,multisig:n,dailyCap:r,contributor:i,splitTreasury:a,splitAgent:o,splitContrib:s,splitPlatform:c}){let l=Z.activeAccount.address,u=`
 CALL_FUNCTION
     Address("${X.PACKAGE_ADDRESS}")
     "AICompany"
@@ -889,7 +911,7 @@ CALL_METHOD
     None
 ;
 `;console.log(`[instantiate] manifest:
-`,u);try{let e=await Vu(u);alert(`✅ Company created! TX: ${e}\n\nRefresh the page to see your new dashboard.`)}catch(e){console.error(`[instantiate] error:`,e),alert(`Transaction failed. Check console for details.`)}}window.deposit=md,window.revokeBadge=Od,window.increaseLimits=xd,window.resetDailyCap=Cd,window.viewBalances=Dd,window.mintAgentBadge=Md,window.depositWithSplit=Pd,window.updateSplits=Id,window.checkAndOpenPending=Xu,window.openHow=Fu,window.openAbout=Ru,window.openTerms=Iu,window.openDisclaimer=zu,window.openPrivacy=Lu,window.closeHow=Q,window.closeDisclaimer=Bu,window.closeModal=Q,window.openLimitsModal=Pu,window.freeze=gd,window.unfreeze=vd,window.showInstantiateModal=Rd,window.toggleWhitelist=function(){$({title:`Whitelist`,hideConfirm:!0,content:`
+`,u);try{let e=await Vu(u);alert(`✅ Company created! TX: ${e}\n\nRefresh the page to see your new dashboard.`)}catch(e){console.error(`[instantiate] error:`,e),alert(`Transaction failed. Check console for details.`)}}window.deposit=md,window.revokeBadge=Od,window.increaseLimits=xd,window.resetDailyCap=Cd,window.viewBalances=Dd,window.mintAgentBadge=Nd,window.depositWithSplit=Id,window.updateSplits=Rd,window.checkAndOpenPending=Xu,window.openHow=Fu,window.openAbout=Ru,window.openTerms=Iu,window.openDisclaimer=zu,window.openPrivacy=Lu,window.closeHow=Q,window.closeDisclaimer=Bu,window.closeModal=Q,window.openLimitsModal=Pu,window.freeze=gd,window.unfreeze=vd,window.showInstantiateModal=Bd,window.toggleWhitelist=function(){$({title:`Whitelist`,hideConfirm:!0,content:`
       <div style="display:flex;flex-direction:column;gap:12px;margin-top:8px;">
         <button id="btn-add-wl" style="padding:12px;border-radius:8px;background:#276ff5;color:white;border:none;cursor:pointer;font-size:15px;font-weight:600;">
           ➕ Add wallet to whitelist
@@ -913,7 +935,7 @@ CALL_METHOD
           💸 Emergency Withdraw — Recover ALL funds
         </button>
       </div>
-    `}),setTimeout(()=>{document.getElementById(`btn-freeze`)?.addEventListener(`click`,()=>{Q(),gd()}),document.getElementById(`btn-unfreeze`)?.addEventListener(`click`,()=>{Q(),vd()}),document.getElementById(`btn-withdraw`)?.addEventListener(`click`,()=>{Q(),yd()})},50)};var Bd=Tu({dAppDefinitionAddress:X.DAPP_DEFINITION,networkId:X.NETWORK_ID,applicationName:X.APP_NAME,applicationVersion:X.APP_VERSION});Bd.walletApi.setRequestData(Xc.accounts().atLeast(1)),window.onAccountChanged=async function(e){Z.activeAccount=e;let t=Z.componentAddress;if(Z.isFounder=!1,Z.hasAgent=!1,await Du(e.address),!Z.componentAddress&&t&&(Z.componentAddress=t),console.log(`[main] isFounder:`,Z.isFounder,`hasAgent:`,Z.hasAgent),!Z.isFounder&&!Z.hasAgent){Au(!1,!1,!0);return}await Vd(),Au(Z.isFounder,Z.hasAgent)},Bd.walletApi.walletData$.subscribe(async e=>{Z.walletData=e,e?.accounts?.length&&(Z.polling||(ed(e.accounts),await window.onAccountChanged(e.accounts[0])))});async function Vd(e=null,t=null){e&&(Z.componentAddress=e),t!==null&&(Z.isFounder=t);try{let e=(await(await fetch(`${X.GATEWAY_URL}/transaction/preview`,{method:`POST`,headers:{"Content-Type":`application/json`},body:JSON.stringify({manifest:`
+    `}),setTimeout(()=>{document.getElementById(`btn-freeze`)?.addEventListener(`click`,()=>{Q(),gd()}),document.getElementById(`btn-unfreeze`)?.addEventListener(`click`,()=>{Q(),vd()}),document.getElementById(`btn-withdraw`)?.addEventListener(`click`,()=>{Q(),yd()})},50)};var Hd=Tu({dAppDefinitionAddress:X.DAPP_DEFINITION,networkId:X.NETWORK_ID,applicationName:X.APP_NAME,applicationVersion:X.APP_VERSION});Hd.walletApi.setRequestData(Xc.accounts().atLeast(1)),window.onAccountChanged=async function(e){Z.activeAccount=e;let t=Z.componentAddress;if(Z.isFounder=!1,Z.hasAgent=!1,await Du(e.address),!Z.componentAddress&&t&&(Z.componentAddress=t),console.log(`[main] isFounder:`,Z.isFounder,`hasAgent:`,Z.hasAgent),!Z.isFounder&&!Z.hasAgent){Au(!1,!1,!0);return}await Ud(),Au(Z.isFounder,Z.hasAgent)},Hd.walletApi.walletData$.subscribe(async e=>{Z.walletData=e,e?.accounts?.length&&(Z.polling||(ed(e.accounts),await window.onAccountChanged(e.accounts[0])))});async function Ud(e=null,t=null){e&&(Z.componentAddress=e),t!==null&&(Z.isFounder=t);try{let e=(await(await fetch(`${X.GATEWAY_URL}/transaction/preview`,{method:`POST`,headers:{"Content-Type":`application/json`},body:JSON.stringify({manifest:`
 CALL_METHOD
     Address("${Z.componentAddress}")
     "get_company_info"
@@ -923,4 +945,4 @@ CALL_METHOD
     Address("${Z.componentAddress}")
     "get_agent_badges"
 ;
-        `,start_epoch_inclusive:1,end_epoch_exclusive:100,nonce:Math.floor(Math.random()*1e9),signer_public_keys:[],notary_public_key:{key_type:`EddsaEd25519`,key_hex:`0000000000000000000000000000000000000000000000000000000000000001`},notary_is_signatory:!0,tip_percentage:0,flags:{use_free_credit:!0,assume_all_signature_proofs:!0,skip_epoch_check:!0}})})).json())?.receipt?.output?.[0]?.programmatic_json?.elements||[]).map(e=>{let t=e?.fields||[],n=t[1]?.fields||[];return{id:t[0]?.value,agent_name:n[0]?.value,role:n[1]?.value,created_epoch:n[2]?.value,active:n[3]?.value===`true`||n[3]?.value===!0,spending_limit:n[4]?.value,revenue_share:n[5]?.value,account:n[6]?.value??null}}),console.log(`[main] Agent badges loaded:`,Z.agentBadges.length),ju(),Mu(Z.agentBadges),Z.isFounder&&id(),(Z.isFounder||Z.hasAgent)&&Au(Z.isFounder,Z.hasAgent)}catch(e){console.error(`[main] loadCompanyState error:`,e)}}function Hd(){setInterval(async()=>{(Z.isFounder||Z.hasAgent)&&Z.componentAddress&&Yu(await qu())},15e3)}Hd();
+        `,start_epoch_inclusive:1,end_epoch_exclusive:100,nonce:Math.floor(Math.random()*1e9),signer_public_keys:[],notary_public_key:{key_type:`EddsaEd25519`,key_hex:`0000000000000000000000000000000000000000000000000000000000000001`},notary_is_signatory:!0,tip_percentage:0,flags:{use_free_credit:!0,assume_all_signature_proofs:!0,skip_epoch_check:!0}})})).json())?.receipt?.output?.[0]?.programmatic_json?.elements||[]).map(e=>{let t=e?.fields||[],n=t[1]?.fields||[];return{id:t[0]?.value,agent_name:n[0]?.value,role:n[1]?.value,created_epoch:n[2]?.value,active:n[3]?.value===`true`||n[3]?.value===!0,spending_limit:n[4]?.value,revenue_share:n[5]?.value,account:n[6]?.value??null}}),console.log(`[main] Agent badges loaded:`,Z.agentBadges.length),ju(),Mu(Z.agentBadges),Z.isFounder&&id(),(Z.isFounder||Z.hasAgent)&&Au(Z.isFounder,Z.hasAgent)}catch(e){console.error(`[main] loadCompanyState error:`,e)}}function Wd(){setInterval(async()=>{(Z.isFounder||Z.hasAgent)&&Z.componentAddress&&Yu(await qu())},15e3)}Wd();
