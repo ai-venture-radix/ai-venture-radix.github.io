@@ -1,78 +1,76 @@
 <div class="legal-doc">
-  <h2>Wallet Agent AI</h2>
+  <h2>How to Get Started</h2>
   <p>
-    A smart contract system deployed on Radix network that gives your AI agent 
-    a programmable wallet with verifiable on-chain rules, spending limits, and permissions. 
-    Designed for security, automation and advanced DeFi use cases.
+    AI Venture Radix runs on <strong>Stokenet</strong> — the Radix test network. 
+    You need the Radix Wallet app and some free test XRD to interact with the platform.
+    Follow the steps below to get set up in a few minutes.
   </p>
 
+  <div class="how-step">
+    <h3>Step 1 — Install the Radix Wallet</h3>
+    <p>
+      Download the Radix Wallet app on your mobile device from the App Store or Google Play.
+      Once installed, open the app.
+    </p>
+  </div>
+
+  <div class="how-step">
+    <h3>Step 2 — Switch to Stokenet (Test Network)</h3>
+    <p>
+      Inside the Radix Wallet, go to <strong>Settings</strong> → <strong>Preferences</strong> → <strong>Network Gateway</strong>.
+      Select <strong>Stokenet</strong> as your active network.
+    </p>
+  </div>
+
+  <div class="how-step">
+    <h3>Step 3 — Create a Stokenet Wallet</h3>
+    <p>
+      Tap <strong>Wallet</strong> at the bottom of the screen.
+      Create a new wallet on Stokenet by following the on-screen instructions.
+      This is a test wallet — no real funds are involved.
+    </p>
+  </div>
+
+  <div class="how-step">
+    <h3>Step 4 — Get Free Test XRD</h3>
+    <p>
+      Once your Stokenet wallet is created, open it.
+      Tap the <strong>three dots (···)</strong> in the top right corner of the wallet screen.
+      Select <strong>Get XRD Test Tokens</strong> and confirm.
+      Free test XRD will be sent to your wallet within seconds.
+    </p>
+    <p>
+      When done, tap the <strong>← back arrow</strong> in the top left corner to return to your wallet.
+      You should see your XRD balance.
+    </p>
+  </div>
+
+  <div class="how-step">
+    <h3>Step 5 — Connect to AI Venture Radix</h3>
+    <p>
+      In the Radix Wallet, go to <strong>Settings</strong> → <strong>Linked Connectors</strong>.
+      On your Radix wallet connector select Link new Wallet , a QR code show , now , scan the code with your phone. Now your radix wallet have the mainnet and
+      the new one stokenet one. Just go back with back arrow , and now on the      this website, tap the <strong>Connect</strong> button at the top right — a
+      Login request Pending is sent to your wallet.Accept it and you are ready. 
+    </p>
+    <p>
+      Your wallet is now connected to the platform on Stokenet. 
+      You are ready to create your AI Venture Company and hire your first AI agent.
+    </p>
+  </div>
+
   <div class="flow-box">
-Owner install the SDK for his agent → init it
+Install Radix Wallet
 ↓
-Owner deploys PolicyVault → funds it → configures rules
+Switch to Stokenet in Settings → Preferences → Network Gateway
 ↓
-Receives 2 badges: Agent session badge (AWB) and PolicyVault Owner badge (PVOB) 
+Create a Stokenet wallet
 ↓
-Agent calls wallet.transfer() / wallet.swap() / wallet.createConditionalOrder()
+Get free XRD via ··· → Get XRD Test Tokens
 ↓
-PolicyVault verifies: valid badge + within spend limit + destination in whitelist
+Connect via Settings → Linked Connectors → Scan QR on this site
 ↓
-Transaction executes on Radix — fully auditable on-chain
-  </div>
-  
-  <h3 style="margin-top:24px;color:#276ff5;">On Agent</h3>
-
-  <div class="how-step">
-    <h3>1. Install SDK</h3>
-    <p>
-      Install the Wallet Agent AI SDK in your agent project to enable 
-      communication with the PolicyVault contract.
-    </p>
-    <div class="flow-box">npm install wallet-agent-ai</div>
-    <p>Second inicialize it to create agent notarized account
-    </p>
-    <div class="flow-box">npx agent-wallet init </div>
-    <p>It creates an accout and give you seeds that could be imported on radix-wallet account if you want and a pass to encrypt the pass.Feed the account with
-    some XRD to fees.These account only is used as notarized account .The real account of the agent is the component that will be instantiate in further step.  
-    </p>
-
-  </div>
-
-  <h3 style="margin-top:24px;color:#276ff5;">On Radix Network</h3>
-
-  <div class="how-step">
-    <h3>1. Instantiate Contract</h3>
-    <p>
-      Connect your Radix wallet to this app and create your personal PolicyVault contract.You need the agent-notarized account created in the SDK installation.
-      Without these FIRST step the radix part dont work. 
-      You will set the spending limits, daily cap, and badge duration for your agent. 
-    </p>
-  </div>
-
-  <div class="how-step">
-    <h3>2. Deposit</h3>
-    <p>
-      Fund your agent wallet by depositing tokens into the PolicyVault.The component that define what the agent can or not do.  
-      The agent will only be able to spend what you deposit here. 
-      XRD is required for transaction fees — always keep some available, on the Vault and on the AgentNotarized Account.
-    </p>
-  </div>
-
-  <div class="how-step">
-    <h3>3. Whitelist Wallets</h3>
-    <p>
-      Add at least one authorized destination wallet. 
-      The agent can only send funds to wallets on this list — 
-      any transfer to an unlisted address will be rejected by the contract.
-    </p>
-  </div>
-
-  <div class="how-step">
-    <h3>4.🔒 Owner Controls</h3>
-    <p>
-      Now you can control other advanceds settings of aggent wallet. 
-      Each of the now avalaibles boxes have his own self explanations. 
-    </p>
+You're in — create your company and hire your first AI agent
   </div>
 
 </div>
