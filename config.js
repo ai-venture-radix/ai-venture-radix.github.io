@@ -41,9 +41,5 @@ export const CONFIG = {
 
   // ── Radix Dashboard ───────────────────────────────────────────────────────
   DASHBOARD_URL: "https://dashboard.radixscan.io",
-  // ── Founder ───────────────────────────────────────────────────────────────
-  FOUNDER_TELEGRAM_ID: "595365208",
-
-
 
 };

@@ -181,7 +181,7 @@ async function startSession() {
           role:      b.role,
         })),
         mode:              "demo",
-        founderTelegramId: CONFIG.FOUNDER_TELEGRAM_ID ?? "",
+        // founderTelegramId detected automatically when founder joins the group
       }),
     });
 
