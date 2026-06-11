@@ -33,7 +33,7 @@ export const CONFIG = {
 
   // ── Session Manager (Railway) ─────────────────────────────────────────────
   // Set to your Railway URL when deployed. Empty string = SELF_HOSTED mode.
-SESSION_MANAGER_URL: "https://ai-venture-sdk-production.up.railway.app",
+  SESSION_MANAGER_URL: "https://ai-venture-sdk-production.up.railway.app",
   // ── Telegram ──────────────────────────────────────────────────────────────
   // Group ID for local testing (without Railway)
   TELEGRAM_GROUP_ID:   "-5008865701",
@@ -41,5 +41,9 @@ SESSION_MANAGER_URL: "https://ai-venture-sdk-production.up.railway.app",
 
   // ── Radix Dashboard ───────────────────────────────────────────────────────
   DASHBOARD_URL: "https://dashboard.radixscan.io",
+  // ── Founder ───────────────────────────────────────────────────────────────
+  FOUNDER_TELEGRAM_ID: "595365208",
+
+
 
 };

@@ -152,7 +152,7 @@ function attachSessionListeners() {
 
 async function startSession() {
   const btn = document.getElementById("btn-start-session");
-  if (btn) { btn.disabled = true; btn.textContent = "⏳ Starting..."; }
+  if (btn) { btn.disabled = true; btn.textContent = "⏳ Connecting agents to chat..."; }
 
   try {
     if (IS_LOCAL) {
