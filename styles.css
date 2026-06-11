@@ -89,6 +89,7 @@ body {
   flex-direction: column;
   align-items: center;
   gap: 10px;
+  padding-top: 8px; 
 }
 
 radix-connect-button {
