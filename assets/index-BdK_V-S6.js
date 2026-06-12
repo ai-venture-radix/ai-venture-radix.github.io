@@ -196,7 +196,7 @@ CALL_METHOD
     Decimal("1")
 ;
 CALL_METHOD
-    Address("${X.COMPONENT_ADDRESS}")
+    Address("${Z.componentAddress}")
     "approve_action"
 ;
 `;e.type===`Transfer`&&(t+=`
@@ -219,7 +219,7 @@ CALL_METHOD
     Decimal("1")
 ;
 CALL_METHOD
-    Address("${X.COMPONENT_ADDRESS}")
+    Address("${Z.componentAddress}")
     "reject_action"
 ;
 `;try{await Vu(e),Yu(null)}catch(e){console.error(`[pending] reject error:`,e),alert(`Transaction failed. Check console for details.`)}}async function ed(e){let t=document.getElementById(`account-selector-container`),n=document.getElementById(`account-select`);!t||!n||(t.classList.remove(`hidden`),n.innerHTML=``,e.forEach(e=>{let t=document.createElement(`option`);t.value=e.address,t.textContent=`${e.label} - ${e.address.slice(0,10)}...`,n.appendChild(t)}),await td(e[0]),n.onchange=async t=>{let n=e.find(e=>e.address===t.target.value);Z.activeAccount=n,await window.onAccountChanged(n)})}async function td(e){Z.activeAccount=e,Z.ownerBadgeAddress=null,Z.componentAddress=null,Z.agentAccountAddress=null,Z.agentBadgeAddress=null,Z.agentBadgeLocalId=null,Z.isFounder=!1,Z.hasAgent=!1,Z.hasBalance=!1,Z.hasWhitelist=!1}var nd=!X.SESSION_MANAGER_URL||X.SESSION_MANAGER_URL.includes(`your-app`),rd=X.TELEGRAM_GROUP_LINK||`https://t.me/c/${String(X.TELEGRAM_GROUP_ID??``).replace(`-100`,``)}`;function id(){let e=document.getElementById(`session-card-container`);if(!e)return;if(!Z.isFounder){e.innerHTML=``;return}let t=Z.session;t?(e.innerHTML=od(t),dd(t.expiresAt)):e.innerHTML=ad(),sd()}function ad(){let e=(Z.agentBadges||[]).filter(e=>e.active).length>0;return`
