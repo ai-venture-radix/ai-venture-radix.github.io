@@ -841,8 +841,8 @@ CALL_METHOD
         </div>
 
         <div>
-          <label style="font-size:12px;color:#8b949e;display:block;margin-bottom:4px;">Contributor Account</label>
-          <input id="inst-contributor" type="text" placeholder="account_tdx_2_1..."
+          <label style="font-size:12px;color:#8b949e;display:block;margin-bottom:4px;">Partner Account</label>
+          <input id="inst-partner" type="text" placeholder="account_tdx_2_1..."
             style="width:100%;padding:10px;border-radius:8px;background:#0d1117;border:1px solid #30363d;color:#e6edf3;font-size:14px;box-sizing:border-box;font-family:monospace;">
           <p style="font-size:11px;color:#8b949e;margin:4px 0 0;">Receives 10% of every payment. Can be your own account.</p>
         </div>
@@ -862,7 +862,7 @@ CALL_METHOD
                 style="width:100%;padding:8px;border-radius:6px;background:#161b22;border:1px solid #30363d;color:#e6edf3;font-size:13px;box-sizing:border-box;">
             </div>
             <div>
-              <label style="font-size:11px;color:#d2a8ff;display:block;margin-bottom:4px;">Contributor %</label>
+              <label style="font-size:11px;color:#d2a8ff;display:block;margin-bottom:4px;">Partner %</label>
               <input id="inst-split-contributor" type="number" value="10" min="0" max="100"
                 style="width:100%;padding:8px;border-radius:6px;background:#161b22;border:1px solid #30363d;color:#e6edf3;font-size:13px;box-sizing:border-box;">
             </div>
@@ -884,7 +884,7 @@ CALL_METHOD
         </button>
 
       </div>
-    `}),setTimeout(()=>{let e=[`inst-split-treasury`,`inst-split-agent`,`inst-split-contributor`,`inst-split-platform`];function t(){let t=e.reduce((e,t)=>e+(parseFloat(document.getElementById(t)?.value)||0),0),n=document.getElementById(`inst-split-sum`);n&&(n.textContent=`${t}%`,n.style.color=t===100?`#3fb950`:`#f85149`)}t(),e.forEach(e=>document.getElementById(e)?.addEventListener(`input`,t)),document.getElementById(`btn-instantiate-confirm`)?.addEventListener(`click`,async()=>{let e=document.getElementById(`inst-company-name`)?.value?.trim(),t=document.getElementById(`inst-max-tx`)?.value?.trim(),n=document.getElementById(`inst-multisig`)?.value?.trim(),r=document.getElementById(`inst-daily-cap`)?.value?.trim(),i=document.getElementById(`inst-contributor`)?.value?.trim(),a=parseFloat(document.getElementById(`inst-split-treasury`)?.value)||0,o=parseFloat(document.getElementById(`inst-split-agent`)?.value)||0,s=parseFloat(document.getElementById(`inst-split-contributor`)?.value)||0,c=parseFloat(document.getElementById(`inst-split-platform`)?.value)||0;if(!e){alert(`Company name is required.`);return}if(!i||!i.startsWith(`account_`)){alert(`Invalid contributor account address.`);return}let l=a+o+s+c;if(l!==100){alert(`Revenue splits must sum to 100%. Current: ${l}%`);return}Q(),await Bd({companyName:e,maxTx:t,multisig:n,dailyCap:r,contributor:i,splitTreasury:(a/100).toFixed(2),splitAgent:(o/100).toFixed(2),splitContrib:(s/100).toFixed(2),splitPlatform:(c/100).toFixed(2)})})},50)}async function Bd({companyName:e,maxTx:t,multisig:n,dailyCap:r,contributor:i,splitTreasury:a,splitAgent:o,splitContrib:s,splitPlatform:c}){let l=Z.activeAccount.address,u=`
+    `}),setTimeout(()=>{let e=[`inst-split-treasury`,`inst-split-agent`,`inst-split-contributor`,`inst-split-platform`];function t(){let t=e.reduce((e,t)=>e+(parseFloat(document.getElementById(t)?.value)||0),0),n=document.getElementById(`inst-split-sum`);n&&(n.textContent=`${t}%`,n.style.color=t===100?`#3fb950`:`#f85149`)}t(),e.forEach(e=>document.getElementById(e)?.addEventListener(`input`,t)),document.getElementById(`btn-instantiate-confirm`)?.addEventListener(`click`,async()=>{let e=document.getElementById(`inst-company-name`)?.value?.trim(),t=document.getElementById(`inst-max-tx`)?.value?.trim(),n=document.getElementById(`inst-multisig`)?.value?.trim(),r=document.getElementById(`inst-daily-cap`)?.value?.trim(),i=document.getElementById(`inst-partner`)?.value?.trim(),a=parseFloat(document.getElementById(`inst-split-treasury`)?.value)||0,o=parseFloat(document.getElementById(`inst-split-agent`)?.value)||0,s=parseFloat(document.getElementById(`inst-split-contributor`)?.value)||0,c=parseFloat(document.getElementById(`inst-split-platform`)?.value)||0;if(!e){alert(`Company name is required.`);return}if(!i||!i.startsWith(`account_`)){alert(`Invalid partner account address.`);return}let l=a+o+s+c;if(l!==100){alert(`Revenue splits must sum to 100%. Current: ${l}%`);return}Q(),await Bd({companyName:e,maxTx:t,multisig:n,dailyCap:r,contributor:i,splitTreasury:(a/100).toFixed(2),splitAgent:(o/100).toFixed(2),splitContrib:(s/100).toFixed(2),splitPlatform:(c/100).toFixed(2)})})},50)}async function Bd({companyName:e,maxTx:t,multisig:n,dailyCap:r,contributor:i,splitTreasury:a,splitAgent:o,splitContrib:s,splitPlatform:c}){let l=Z.activeAccount.address,u=`
 CALL_FUNCTION
     Address("${X.PACKAGE_ADDRESS}")
     "AICompany"
