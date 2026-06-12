@@ -68,7 +68,7 @@ var e=Object.create,t=Object.defineProperty,n=Object.getOwnPropertyDescriptor,r=
     <div class="modal-actions">
       <button id="confirmActionBtn">${n}</button>
     </div>`}
-  `,document.getElementById(`howModal`).classList.add(`active`),i||(document.getElementById(`confirmActionBtn`).onclick=async()=>{try{Q(),await r()}catch(e){console.error(e)}})}async function Vu(e){try{console.log(`Sending TX...`,e);let t=await Vd.walletApi.sendTransaction({transactionManifest:e,version:1});return t.isErr()?(console.error(`TX ERROR:`,t.error),null):(console.log(`TX SUCCESS:`,t.value),Z.activeAccount&&await td(Z.activeAccount),t.value)}catch(e){return console.error(`sendTransaction failed:`,e),null}}function Hu(e,t){return`
+  `,document.getElementById(`howModal`).classList.add(`active`),i||(document.getElementById(`confirmActionBtn`).onclick=async()=>{try{Q(),await r()}catch(e){console.error(e)}})}async function Vu(e){try{console.log(`Sending TX...`,e);let t=await Hd.walletApi.sendTransaction({transactionManifest:e,version:1});return t.isErr()?(console.error(`TX ERROR:`,t.error),null):(console.log(`TX SUCCESS:`,t.value),Z.activeAccount&&await td(Z.activeAccount),t.value)}catch(e){return console.error(`sendTransaction failed:`,e),null}}function Hu(e,t){return`
 CALL_METHOD
     Address("${Z.activeAccount.address}")
     "create_proof_of_amount"
@@ -211,7 +211,7 @@ CALL_METHOD
     Enum<0u8>()
 ;
 `),console.log(`[pending] APPROVE MANIFEST:
-`,t);try{await Vu(t),Yu(null),(e.type===`MintAgentBadge`||e.type===`RevokeAgentBadge`)&&await Hd()}catch(e){console.error(`[pending] approve error:`,e),alert(`Transaction failed. Check console for details.`)}}async function $u(){let e=`
+`,t);try{await Vu(t),Yu(null),(e.type===`MintAgentBadge`||e.type===`RevokeAgentBadge`)&&await Ud()}catch(e){console.error(`[pending] approve error:`,e),alert(`Transaction failed. Check console for details.`)}}async function $u(){let e=`
 CALL_METHOD
     Address("${Z.activeAccount.address}")
     "create_proof_of_amount"
@@ -310,7 +310,7 @@ CALL_METHOD
           font-size: 11px;
         ">End</button>
       </div>
-    </div>`}function sd(){document.getElementById(`btn-start-session`)?.addEventListener(`click`,cd),document.getElementById(`btn-end-session`)?.addEventListener(`click`,ld)}async function cd(){let e=document.getElementById(`btn-start-session`);e&&(e.disabled=!0,e.textContent=`⏳ Connecting agents to chat...`);try{if(nd){Z.session={sessionId:`local-session`,inviteLink:rd,expiresAt:new Date(Date.now()+7200*1e3).toISOString(),agents:(Z.agentBadges||[]).filter(e=>e.active)},id();return}let e=(Z.agentBadges||[]).filter(e=>e.active),t=await fetch(`${X.SESSION_MANAGER_URL}/session/create`,{method:`POST`,headers:{"Content-Type":`application/json`},body:JSON.stringify({companyAddress:Z.componentAddress,founderBadgeAddress:Z.founderBadgeAddress,agentBadgeResource:Z.agentBadgeResource,agentBadges:e.map(e=>({badgeId:e.id,agentName:e.agent_name,role:e.role})),mode:`demo`})});if(!t.ok){let e=await t.json();throw Error(e.error||`Failed to create session`)}Z.session=await t.json(),id()}catch(t){console.error(`[agentSession] startSession error:`,t),t.message?.includes(`Maximum concurrent sessions`)?alert(`All session slots are currently in use. Each session can last up to 2 hours — please come back later.`):alert(`Could not start session: ${t.message}`),e&&(e.disabled=!1,e.textContent=`🚀 Start Session`)}}async function ld(){if(confirm(`End the current agent session?`)){if(!nd&&Z.session?.sessionId)try{await fetch(`${X.SESSION_MANAGER_URL}/session/end/${Z.session.sessionId}`,{method:`POST`})}catch(e){console.error(`[agentSession] endSession error:`,e)}Z.session=null,id()}}var ud=null;function dd(e){ud&&clearInterval(ud);function t(){let t=document.getElementById(`session-countdown`);if(!t){clearInterval(ud);return}let n=new Date(e)-new Date;if(n<=0){t.textContent=`Expired`,Z.session=null,clearInterval(ud),setTimeout(id,1e3);return}let r=Math.floor(n/36e5),i=Math.floor(n%36e5/6e4),a=Math.floor(n%6e4/1e3);t.textContent=`${String(r).padStart(2,`0`)}:${String(i).padStart(2,`0`)}:${String(a).padStart(2,`0`)} remaining`}t(),ud=setInterval(t,1e3)}async function fd(){let e=Z.activeAccount.address,t=(await(await fetch(`${X.GATEWAY_URL}/state/entity/details`,{method:`POST`,headers:{"Content-Type":`application/json`},body:JSON.stringify({addresses:[e],aggregation_level:`Vault`,opt_ins:{explicit_metadata:[`name`,`symbol`]}})})).json())?.items?.[0]?.fungible_resources?.items||[];return console.log(`PVOB address:`,Z.ownerBadgeAddress),console.log(`Fungibles antes de filtrar:`,t.map(e=>e.resource_address)),t.filter(e=>e.resource_address!==Z.ownerBadgeAddress).filter(e=>parseFloat(e.vaults?.items?.[0]?.amount||0)>0).map(e=>{let t=e.explicit_metadata?.items||[],n=t.find(e=>e.key===`name`)?.value?.typed?.value||`Unknown`,r=t.find(e=>e.key===`symbol`)?.value?.typed?.value||`???`,i=e.vaults?.items?.[0]?.amount||`0`;return{address:e.resource_address,name:n,symbol:r,amount:i}})}function pd(e,t){let n=Z.activeAccount.address;return`
+    </div>`}function sd(){document.getElementById(`btn-start-session`)?.addEventListener(`click`,cd),document.getElementById(`btn-end-session`)?.addEventListener(`click`,ld)}async function cd(){let e=document.getElementById(`btn-start-session`);e&&(e.disabled=!0,e.textContent=`⏳ Connecting agents to chat...`);try{if(nd){Z.session={sessionId:`local-session`,inviteLink:rd,expiresAt:new Date(Date.now()+7200*1e3).toISOString(),agents:(Z.agentBadges||[]).filter(e=>e.active)},id();return}let e=(Z.agentBadges||[]).filter(e=>e.active),t=await fetch(`${X.SESSION_MANAGER_URL}/session/create`,{method:`POST`,headers:{"Content-Type":`application/json`},body:JSON.stringify({companyAddress:Z.componentAddress,founderBadgeAddress:Z.founderBadgeAddress,agentBadgeResource:Z.agentBadgeResource,agentBadges:e.map(e=>({badgeId:e.id,agentName:e.agent_name,role:e.role})),mode:`demo`})});if(!t.ok){let e=await t.json();throw Error(e.error||`Failed to create session`)}Z.session=await t.json(),id()}catch(t){if(console.error(`[agentSession] startSession error:`,t),t.message?.includes(`Maximum concurrent sessions`)){let e=await fd();alert(`All session slots are currently in use.${e}`)}else alert(`Could not start session: ${t.message}`);e&&(e.disabled=!1,e.textContent=`🚀 Start Session`)}}async function ld(){if(confirm(`End the current agent session?`)){if(!nd&&Z.session?.sessionId)try{await fetch(`${X.SESSION_MANAGER_URL}/session/end/${Z.session.sessionId}`,{method:`POST`})}catch(e){console.error(`[agentSession] endSession error:`,e)}Z.session=null,id()}}var ud=null;function dd(e){ud&&clearInterval(ud);function t(){let t=document.getElementById(`session-countdown`);if(!t){clearInterval(ud);return}let n=new Date(e)-new Date;if(n<=0){t.textContent=`Expired`,Z.session=null,clearInterval(ud),setTimeout(id,1e3);return}let r=Math.floor(n/36e5),i=Math.floor(n%36e5/6e4),a=Math.floor(n%6e4/1e3);t.textContent=`${String(r).padStart(2,`0`)}:${String(i).padStart(2,`0`)}:${String(a).padStart(2,`0`)} remaining`}t(),ud=setInterval(t,1e3)}async function fd(){try{let e=((await(await fetch(`${X.SESSION_MANAGER_URL}/health`)).json()).sessionExpiries||[]).map(e=>new Date(e));if(e.length===0)return` Please try again later.`;let t=new Date(Math.min(...e)),n=Math.ceil((t-new Date)/6e4);return n<=1?` A slot should free up in about a minute — please try again shortly.`:n<60?` A slot should free up in approximately ${n} minutes.`:` A slot should free up in approximately ${Math.floor(n/60)}h ${n%60}m.`}catch{return` Each session can last up to 2 hours — please try again later.`}}async function pd(){let e=Z.activeAccount.address,t=(await(await fetch(`${X.GATEWAY_URL}/state/entity/details`,{method:`POST`,headers:{"Content-Type":`application/json`},body:JSON.stringify({addresses:[e],aggregation_level:`Vault`,opt_ins:{explicit_metadata:[`name`,`symbol`]}})})).json())?.items?.[0]?.fungible_resources?.items||[];return console.log(`PVOB address:`,Z.ownerBadgeAddress),console.log(`Fungibles antes de filtrar:`,t.map(e=>e.resource_address)),t.filter(e=>e.resource_address!==Z.ownerBadgeAddress).filter(e=>parseFloat(e.vaults?.items?.[0]?.amount||0)>0).map(e=>{let t=e.explicit_metadata?.items||[],n=t.find(e=>e.key===`name`)?.value?.typed?.value||`Unknown`,r=t.find(e=>e.key===`symbol`)?.value?.typed?.value||`???`,i=e.vaults?.items?.[0]?.amount||`0`;return{address:e.resource_address,name:n,symbol:r,amount:i}})}function md(e,t){let n=Z.activeAccount.address;return`
 CALL_METHOD
     Address("${n}")
     "create_proof_of_amount"
@@ -332,10 +332,10 @@ CALL_METHOD
     "deposit"
     Bucket("deposit_bucket")
 ;
-`}async function md(){if(!Z.activeAccount||!Z.ownerBadgeAddress||!Z.componentAddress){console.error(`Missing APP_STATE data for deposit`);return}$({title:`Deposit Funds`,content:`
+`}async function hd(){if(!Z.activeAccount||!Z.ownerBadgeAddress||!Z.componentAddress){console.error(`Missing APP_STATE data for deposit`);return}$({title:`Deposit Funds`,content:`
       <label>Select Token</label>
       <select id="deposit-resource" style="width:100%;padding:8px;margin:8px 0 16px;border-radius:8px;background:#111;color:white;border:1px solid #333;">
-        ${(await fd()).map(e=>`
+        ${(await pd()).map(e=>`
     <option value="${e.address}">
       ${e.symbol} — ${e.name} (${parseFloat(e.amount).toFixed(2)} available)
     </option>
@@ -346,7 +346,7 @@ CALL_METHOD
         placeholder="0.0" min="0" step="0.1"
         style="width:100%;padding:8px;margin:8px 0;border-radius:8px;background:#111;color:white;border:1px solid #333;"
       />
-    `,confirmText:`Deposit`,onConfirm:async()=>{let e=document.getElementById(`deposit-resource`).value.trim(),t=document.getElementById(`deposit-amount`).value.trim();if(!e||!t||parseFloat(t)<=0){console.error(`Invalid deposit inputs`);return}let n=pd(e,t);console.log(`DEPOSIT MANIFEST:`,n),await Vu(n)}})}function hd(){return`
+    `,confirmText:`Deposit`,onConfirm:async()=>{let e=document.getElementById(`deposit-resource`).value.trim(),t=document.getElementById(`deposit-amount`).value.trim();if(!e||!t||parseFloat(t)<=0){console.error(`Invalid deposit inputs`);return}let n=md(e,t);console.log(`DEPOSIT MANIFEST:`,n),await Vu(n)}})}function gd(){return`
 CALL_METHOD
     Address("${Z.activeAccount.address}")
     "create_proof_of_amount"
@@ -357,10 +357,10 @@ CALL_METHOD
     Address("${Z.componentAddress}")
     "freeze"
 ;
-`}async function gd(){if(!Z.activeAccount||!Z.ownerBadgeAddress||!Z.componentAddress){console.error(`Missing APP_STATE data for freeze`);return}$({title:`Freeze Wallet Agent AI`,content:`
+`}async function _d(){if(!Z.activeAccount||!Z.ownerBadgeAddress||!Z.componentAddress){console.error(`Missing APP_STATE data for freeze`);return}$({title:`Freeze Wallet Agent AI`,content:`
       This will freeze all outgoing activity of your agent wallet.<br><br>
       Please confirm and sign in your Radix Wallet.
-    `,confirmText:`Freeze`,onConfirm:async()=>{let e=hd();console.log(`FREEZE MANIFEST:`,e),await Vu(e)}})}function _d(){return`
+    `,confirmText:`Freeze`,onConfirm:async()=>{let e=gd();console.log(`FREEZE MANIFEST:`,e),await Vu(e)}})}function vd(){return`
 CALL_METHOD
     Address("${Z.activeAccount.address}")
     "create_proof_of_amount"
@@ -371,10 +371,10 @@ CALL_METHOD
     Address("${Z.componentAddress}")
     "unfreeze"
 ;
-`}async function vd(){if(!Z.activeAccount||!Z.ownerBadgeAddress||!Z.componentAddress){console.error(`Missing APP_STATE data for unfreeze`);return}$({title:`Unfreeze Wallet Agent AI`,content:`
+`}async function yd(){if(!Z.activeAccount||!Z.ownerBadgeAddress||!Z.componentAddress){console.error(`Missing APP_STATE data for unfreeze`);return}$({title:`Unfreeze Wallet Agent AI`,content:`
       This will unfreeze all outgoing activity of your agent wallet.<br><br>
       Please confirm and sign in your Radix Wallet.
-    `,confirmText:`Unfreeze`,onConfirm:async()=>{let e=_d();console.log(`UNFREEZE MANIFEST:`,e),await Vu(e)}})}async function yd(){if(!Z.activeAccount||!Z.ownerBadgeAddress||!Z.componentAddress){console.error(`Missing APP_STATE data for emergencyWithdraw`);return}$({title:`⚠️ Emergency Withdraw`,content:`
+    `,confirmText:`Unfreeze`,onConfirm:async()=>{let e=vd();console.log(`UNFREEZE MANIFEST:`,e),await Vu(e)}})}async function bd(){if(!Z.activeAccount||!Z.ownerBadgeAddress||!Z.componentAddress){console.error(`Missing APP_STATE data for emergencyWithdraw`);return}$({title:`⚠️ Emergency Withdraw`,content:`
       <div style="display:flex;flex-direction:column;gap:16px;margin-top:8px;">
         <p style="color:#c0392b;font-size:14px;margin:0;">
           ⚠️ This will withdraw ALL funds of the selected asset from the contract directly to your wallet. Use only in emergency.
@@ -403,7 +403,7 @@ CALL_METHOD
     "deposit_batch"
     Expression("ENTIRE_WORKTOP")
 ;
-`;console.log(`EMERGENCY WITHDRAW MANIFEST:`,n),await Vu(n)}})}function bd(e,t,n){return`
+`;console.log(`EMERGENCY WITHDRAW MANIFEST:`,n),await Vu(n)}})}function xd(e,t,n){return`
 CALL_METHOD
     Address("${Z.activeAccount.address}")
     "create_proof_of_amount"
@@ -417,7 +417,7 @@ CALL_METHOD
     Decimal("${t}")
     Decimal("${n}")
 ;
-`}async function xd(){if(!Z.activeAccount||!Z.ownerBadgeAddress||!Z.componentAddress){console.error(`Missing APP_STATE data for increaseLimits`);return}$({title:`Update Limits`,content:`
+`}async function Sd(){if(!Z.activeAccount||!Z.ownerBadgeAddress||!Z.componentAddress){console.error(`Missing APP_STATE data for increaseLimits`);return}$({title:`Update Limits`,content:`
       <div style="display:flex;flex-direction:column;gap:16px;margin-top:8px;">
         <div>
           <label style="font-size:13px;color:#8b949e;">Max per Transaction</label>
@@ -450,7 +450,7 @@ CALL_METHOD
           />
         </div>
       </div>
-    `,confirmText:`Update Limits`,onConfirm:async()=>{let e=document.getElementById(`limit-max-tx`).value.trim(),t=document.getElementById(`limit-multisig`).value.trim(),n=document.getElementById(`limit-daily`).value.trim();if(!e||!t||!n){console.error(`All fields required for increaseLimits`);return}if(parseFloat(e)>parseFloat(t)){console.error(`Max per TX cannot exceed Multisig Threshold`);return}if(parseFloat(t)>parseFloat(n)){console.error(`Multisig Threshold cannot exceed Daily Cap`);return}let r=bd(e,t,n);console.log(`INCREASE LIMITS MANIFEST:`,r),await Vu(r)}})}function Sd(){return`
+    `,confirmText:`Update Limits`,onConfirm:async()=>{let e=document.getElementById(`limit-max-tx`).value.trim(),t=document.getElementById(`limit-multisig`).value.trim(),n=document.getElementById(`limit-daily`).value.trim();if(!e||!t||!n){console.error(`All fields required for increaseLimits`);return}if(parseFloat(e)>parseFloat(t)){console.error(`Max per TX cannot exceed Multisig Threshold`);return}if(parseFloat(t)>parseFloat(n)){console.error(`Multisig Threshold cannot exceed Daily Cap`);return}let r=xd(e,t,n);console.log(`INCREASE LIMITS MANIFEST:`,r),await Vu(r)}})}function Cd(){return`
 CALL_METHOD
     Address("${Z.activeAccount.address}")
     "create_proof_of_amount"
@@ -461,14 +461,14 @@ CALL_METHOD
     Address("${Z.componentAddress}")
     "reset_daily_cap"
 ;
-`}async function Cd(){if(!Z.activeAccount||!Z.ownerBadgeAddress||!Z.componentAddress){console.error(`Missing APP_STATE data for resetDailyCap`);return}$({title:`Reset Daily Cap`,content:`
+`}async function wd(){if(!Z.activeAccount||!Z.ownerBadgeAddress||!Z.componentAddress){console.error(`Missing APP_STATE data for resetDailyCap`);return}$({title:`Reset Daily Cap`,content:`
       <p style="font-size:14px;color:#8b949e;margin-bottom:12px;">
         This will restart the daily spending counter back to zero.
       </p>
       <p style="font-size:12px;color:#555;">
         ⚠️ Only works if at least 24 hours (288 epochs) have passed since the last reset.
       </p>
-    `,confirmText:`Reset Daily Cap`,onConfirm:async()=>{let e=Sd();console.log(`RESET DAILY CAP MANIFEST:`,e),await Vu(e)}})}async function wd(){return((await(await fetch(`${X.GATEWAY_URL}/state/entity/details`,{method:`POST`,headers:{"Content-Type":`application/json`},body:JSON.stringify({addresses:[Z.componentAddress],aggregation_level:`Vault`,opt_ins:{explicit_metadata:[`name`,`symbol`]}})})).json())?.items?.[0]?.fungible_resources?.items||[]).map(e=>{let t=e.explicit_metadata?.items||[];return{name:t.find(e=>e.key===`name`)?.value?.typed?.value||`Unknown`,symbol:t.find(e=>e.key===`symbol`)?.value?.typed?.value||`???`,amount:parseFloat(e.vaults?.items?.[0]?.amount||0).toFixed(4)}})}async function Td(){let e=(await(await fetch(`${X.GATEWAY_URL}/state/entity/details`,{method:`POST`,headers:{"Content-Type":`application/json`},body:JSON.stringify({addresses:[Z.componentAddress]})})).json())?.items?.[0]?.details?.state?.fields??[],t=t=>e.find(e=>e.field_name===t)?.value??`—`;return{agentBadgeResource:t(`agent_badge_manager`),ownerBadgeAddress:t(`owner_badge_address`),founderAccount:t(`founder_account`)===`—`?t(`notarizer_account`):t(`founder_account`)}}async function Ed(e){let t=e.filter(e=>e.active&&e.account);return t.length?await Promise.all(t.map(async e=>{try{let t=((await(await fetch(`${X.GATEWAY_URL}/state/entity/details`,{method:`POST`,headers:{"Content-Type":`application/json`},body:JSON.stringify({addresses:[e.account],aggregation_level:`Vault`,opt_ins:{explicit_metadata:[`symbol`]}})})).json())?.items?.[0]?.fungible_resources?.items||[]).find(e=>e.resource_address===X.XRD),n=parseFloat(t?.vaults?.items?.[0]?.amount||0).toFixed(4);return{name:e.agent_name,role:e.role,account:e.account,amount:n}}catch{return{name:e.agent_name,role:e.role,account:e.account,amount:`—`}}})):[]}async function Dd(){if(!Z.componentAddress){console.error(`[viewBalances] Missing componentAddress`);return}let[e,t,n]=await Promise.all([wd(),Td(),Ed(Z.agentBadges||[])]),r=e.length>0?e.map(e=>`
+    `,confirmText:`Reset Daily Cap`,onConfirm:async()=>{let e=Cd();console.log(`RESET DAILY CAP MANIFEST:`,e),await Vu(e)}})}async function Td(){return((await(await fetch(`${X.GATEWAY_URL}/state/entity/details`,{method:`POST`,headers:{"Content-Type":`application/json`},body:JSON.stringify({addresses:[Z.componentAddress],aggregation_level:`Vault`,opt_ins:{explicit_metadata:[`name`,`symbol`]}})})).json())?.items?.[0]?.fungible_resources?.items||[]).map(e=>{let t=e.explicit_metadata?.items||[];return{name:t.find(e=>e.key===`name`)?.value?.typed?.value||`Unknown`,symbol:t.find(e=>e.key===`symbol`)?.value?.typed?.value||`???`,amount:parseFloat(e.vaults?.items?.[0]?.amount||0).toFixed(4)}})}async function Ed(){let e=(await(await fetch(`${X.GATEWAY_URL}/state/entity/details`,{method:`POST`,headers:{"Content-Type":`application/json`},body:JSON.stringify({addresses:[Z.componentAddress]})})).json())?.items?.[0]?.details?.state?.fields??[],t=t=>e.find(e=>e.field_name===t)?.value??`—`;return{agentBadgeResource:t(`agent_badge_manager`),ownerBadgeAddress:t(`owner_badge_address`),founderAccount:t(`founder_account`)===`—`?t(`notarizer_account`):t(`founder_account`)}}async function Dd(e){let t=e.filter(e=>e.active&&e.account);return t.length?await Promise.all(t.map(async e=>{try{let t=((await(await fetch(`${X.GATEWAY_URL}/state/entity/details`,{method:`POST`,headers:{"Content-Type":`application/json`},body:JSON.stringify({addresses:[e.account],aggregation_level:`Vault`,opt_ins:{explicit_metadata:[`symbol`]}})})).json())?.items?.[0]?.fungible_resources?.items||[]).find(e=>e.resource_address===X.XRD),n=parseFloat(t?.vaults?.items?.[0]?.amount||0).toFixed(4);return{name:e.agent_name,role:e.role,account:e.account,amount:n}}catch{return{name:e.agent_name,role:e.role,account:e.account,amount:`—`}}})):[]}async function Od(){if(!Z.componentAddress){console.error(`[viewBalances] Missing componentAddress`);return}let[e,t,n]=await Promise.all([Td(),Ed(),Dd(Z.agentBadges||[])]),r=e.length>0?e.map(e=>`
         <div style="display:flex;justify-content:space-between;align-items:center;
           padding:10px;border-radius:8px;background:#0a0f1a;border:1px solid #1f2937;">
           <span style="font-size:13px;color:#8b949e;">${e.symbol} — ${e.name}</span>
@@ -530,7 +530,7 @@ CALL_METHOD
         </a>
 
       </div>
-    `})}function Od(){if(!Z.isFounder){alert(`Only the Founder can revoke agent badges.`);return}let e=(Z.agentBadges||[]).filter(e=>e.active);if(e.length===0){alert(`No active agent badges to revoke.`);return}$({title:`🔴 Revoke Agent Badge`,hideConfirm:!0,content:`
+    `})}function kd(){if(!Z.isFounder){alert(`Only the Founder can revoke agent badges.`);return}let e=(Z.agentBadges||[]).filter(e=>e.active);if(e.length===0){alert(`No active agent badges to revoke.`);return}$({title:`🔴 Revoke Agent Badge`,hideConfirm:!0,content:`
       <div style="display:flex;flex-direction:column;gap:14px;margin-top:8px;">
 
         <p style="color:#f85149;font-size:13px;margin:0;">
@@ -563,7 +563,7 @@ CALL_METHOD
         </button>
 
       </div>
-    `}),setTimeout(()=>{document.getElementById(`btn-revoke-confirm`)?.addEventListener(`click`,async()=>{let e=document.getElementById(`revoke-badge-select`)?.value,t=document.getElementById(`revoke-account`)?.value?.trim();if(!e){alert(`Select an agent badge to revoke.`);return}if(!t||!t.startsWith(`account_`)){alert(`Invalid agent account address.`);return}Q(),await kd(e,t)})},50)}async function kd(e,t){let n=Z.activeAccount.address,r=Z.founderBadgeAddress,i=Z.componentAddress,a=Z.agentBadgeResource,o=Z.componentAddress,s=Z.isFounder,c=await Ad(t);if(!c){alert(`Could not find agent badge vault in the specified account.`);return}let l=`
+    `}),setTimeout(()=>{document.getElementById(`btn-revoke-confirm`)?.addEventListener(`click`,async()=>{let e=document.getElementById(`revoke-badge-select`)?.value,t=document.getElementById(`revoke-account`)?.value?.trim();if(!e){alert(`Select an agent badge to revoke.`);return}if(!t||!t.startsWith(`account_`)){alert(`Invalid agent account address.`);return}Q(),await Ad(e,t)})},50)}async function Ad(e,t){let n=Z.activeAccount.address,r=Z.founderBadgeAddress,i=Z.componentAddress,a=Z.agentBadgeResource,o=Z.componentAddress,s=Z.isFounder,c=await jd(t);if(!c){alert(`Could not find agent badge vault in the specified account.`);return}let l=`
 CALL_METHOD
     Address("${n}")
     "create_proof_of_amount"
@@ -585,7 +585,7 @@ CALL_METHOD
     Bucket("badge_bucket")
 ;
 `;console.log(`[revokeBadge] manifest:
-`,l);try{await Vu(l),Q();let e=(Z.agentBadges||[]).filter(e=>e.active).length;for(let t=0;t<10&&(await new Promise(e=>setTimeout(e,3e3)),await Hd(o,s),!((Z.agentBadges||[]).filter(e=>e.active).length<e));t++);}catch(e){console.error(`[revokeBadge] error:`,e),alert(`Transaction failed. Check console for details.`)}}async function Ad(e){try{let t=(await(await fetch(`${X.GATEWAY_URL}/state/entity/details`,{method:`POST`,headers:{"Content-Type":`application/json`},body:JSON.stringify({addresses:[e],aggregation_level:`Vault`})})).json())?.items?.[0]?.non_fungible_resources?.items||[];for(let e of t)if(e.resource_address===Z.agentBadgeResource)return e.vaults?.items?.[0]?.vault_address||null;return null}catch(e){return console.error(`[revokeBadge] getAgentBadgeVault error:`,e),null}}var jd=!!X.SESSION_MANAGER_URL&&!X.SESSION_MANAGER_URL.includes(`your-app`);function Md(){if(!Z.isFounder){alert(`Only the Founder can mint agent badges.`);return}let e={};for(let t of(Z.agentBadges||[]).filter(e=>e.active))e[t.role]=(e[t.role]||0)+1;let t=[`Marketing`,`Designer`,`Research`].filter(t=>!e[t]);if(t.length===0){alert(`You already have one active agent of each role (Marketing, Designer, Research). Revoke one to add another.`);return}let n=jd?`
+`,l);try{await Vu(l),Q();let e=(Z.agentBadges||[]).filter(e=>e.active).length;for(let t=0;t<10&&(await new Promise(e=>setTimeout(e,3e3)),await Ud(o,s),!((Z.agentBadges||[]).filter(e=>e.active).length<e));t++);}catch(e){console.error(`[revokeBadge] error:`,e),alert(`Transaction failed. Check console for details.`)}}async function jd(e){try{let t=(await(await fetch(`${X.GATEWAY_URL}/state/entity/details`,{method:`POST`,headers:{"Content-Type":`application/json`},body:JSON.stringify({addresses:[e],aggregation_level:`Vault`})})).json())?.items?.[0]?.non_fungible_resources?.items||[];for(let e of t)if(e.resource_address===Z.agentBadgeResource)return e.vaults?.items?.[0]?.vault_address||null;return null}catch(e){return console.error(`[revokeBadge] getAgentBadgeVault error:`,e),null}}var Md=!!X.SESSION_MANAGER_URL&&!X.SESSION_MANAGER_URL.includes(`your-app`);function Nd(){if(!Z.isFounder){alert(`Only the Founder can mint agent badges.`);return}let e={};for(let t of(Z.agentBadges||[]).filter(e=>e.active))e[t.role]=(e[t.role]||0)+1;let t=[`Marketing`,`Designer`,`Research`].filter(t=>!e[t]);if(t.length===0){alert(`You already have one active agent of each role (Marketing, Designer, Research). Revoke one to add another.`);return}let n=Md?`
       <div style="padding:10px;border-radius:8px;background:#0d1117;border:1px solid #276ff5;">
         <p style="font-size:12px;color:#276ff5;margin:0;">
           🤖 The system will automatically create and fund the agent account.
@@ -648,7 +648,7 @@ CALL_METHOD
         </button>
 
       </div>
-    `}),setTimeout(()=>{document.getElementById(`btn-mint-confirm`)?.addEventListener(`click`,async()=>{let e=document.getElementById(`mint-agent-name`)?.value?.trim(),t=document.getElementById(`mint-agent-role`)?.value,n=document.getElementById(`mint-spending-limit`)?.value?.trim(),r=document.getElementById(`mint-revenue-share`)?.value?.trim();if(!e){alert(`Agent name is required.`);return}if(!n||parseFloat(n)<=0){alert(`Spending limit must be greater than 0.`);return}let i=parseFloat(r);if(isNaN(i)||i<0||i>1){alert(`Revenue share must be between 0 and 1.`);return}let a;if(jd){let n=document.getElementById(`btn-mint-confirm`);if(n&&(n.disabled=!0,n.textContent=`⏳ Creating agent account on Radix...See your founder wallet to sign`,n.style.background=`#1a1a2e`),a=await Nd(e,t),!a){n&&(n.disabled=!1,n.textContent=`🪪 Mint Badge`,n.style.background=`#276ff5`);return}}else if(a=document.getElementById(`mint-destination`)?.value?.trim(),!a||!a.startsWith(`account_`)){alert(`Invalid destination account address.`);return}let o=document.getElementById(`btn-mint-confirm`);o&&(o.disabled=!0,o.textContent=`⏳ Creating agent account...See your Founder wallet to sign`),Q(),await Pd(e,t,n,r,a)})},50)}async function Nd(e,t){try{let n=await fetch(`${X.SESSION_MANAGER_URL}/agent/create-account`,{method:`POST`,headers:{"Content-Type":`application/json`},body:JSON.stringify({companyAddress:Z.componentAddress,agentName:e,role:t,network:`stokenet`})});if(!n.ok){let e=await n.json();return alert(`Failed to create agent account: ${e.error}`),null}let r=await n.json();return console.log(`[mintAgentBadge] Agent account created:`,r.address),r.address}catch(e){return alert(`Session manager unreachable: ${e.message}`),null}}async function Pd(e,t,n,r,i){let a=Z.activeAccount.address,o=Z.founderBadgeAddress,s=Z.componentAddress,c=Z.componentAddress,l=Z.isFounder,u=`
+    `}),setTimeout(()=>{document.getElementById(`btn-mint-confirm`)?.addEventListener(`click`,async()=>{let e=document.getElementById(`mint-agent-name`)?.value?.trim(),t=document.getElementById(`mint-agent-role`)?.value,n=document.getElementById(`mint-spending-limit`)?.value?.trim(),r=document.getElementById(`mint-revenue-share`)?.value?.trim();if(!e){alert(`Agent name is required.`);return}if(!n||parseFloat(n)<=0){alert(`Spending limit must be greater than 0.`);return}let i=parseFloat(r);if(isNaN(i)||i<0||i>1){alert(`Revenue share must be between 0 and 1.`);return}let a;if(Md){let n=document.getElementById(`btn-mint-confirm`);if(n&&(n.disabled=!0,n.textContent=`⏳ Creating agent account on Radix...See your founder wallet to sign`,n.style.background=`#1a1a2e`),a=await Pd(e,t),!a){n&&(n.disabled=!1,n.textContent=`🪪 Mint Badge`,n.style.background=`#276ff5`);return}}else if(a=document.getElementById(`mint-destination`)?.value?.trim(),!a||!a.startsWith(`account_`)){alert(`Invalid destination account address.`);return}let o=document.getElementById(`btn-mint-confirm`);o&&(o.disabled=!0,o.textContent=`⏳ Creating agent account...See your Founder wallet to sign`),Q(),await Fd(e,t,n,r,a)})},50)}async function Pd(e,t){try{let n=await fetch(`${X.SESSION_MANAGER_URL}/agent/create-account`,{method:`POST`,headers:{"Content-Type":`application/json`},body:JSON.stringify({companyAddress:Z.componentAddress,agentName:e,role:t,network:`stokenet`})});if(!n.ok){let e=await n.json();return alert(`Failed to create agent account: ${e.error}`),null}let r=await n.json();return console.log(`[mintAgentBadge] Agent account created:`,r.address),r.address}catch(e){return alert(`Session manager unreachable: ${e.message}`),null}}async function Fd(e,t,n,r,i){let a=Z.activeAccount.address,o=Z.founderBadgeAddress,s=Z.componentAddress,c=Z.componentAddress,l=Z.isFounder,u=`
 CALL_METHOD
     Address("${a}")
     "create_proof_of_amount"
@@ -666,7 +666,7 @@ CALL_METHOD
     "${i}"
 ;
 `;console.log(`[mintAgentBadge] manifest:
-`,u);try{await Vu(u),Q();let e=(Z.agentBadges||[]).length;for(let t=0;t<10&&(await new Promise(e=>setTimeout(e,3e3)),await Hd(c,l),!((Z.agentBadges||[]).length>e));t++);}catch(e){console.error(`[mintAgentBadge] error:`,e),alert(`Transaction failed. Check console for details.`)}}function Fd(){let e=(Z.agentBadges||[]).filter(e=>e.active),t=e.length>0?e.map(e=>`<option value="${e.id}">${e.agent_name} (${e.role}) — ID ${e.id}</option>`).join(``):`<option value="" disabled>No active agents yet</option>`;$({title:`⚡ Pay Company — Auto Split`,hideConfirm:!0,content:`
+`,u);try{await Vu(u),Q();let e=(Z.agentBadges||[]).length;for(let t=0;t<10&&(await new Promise(e=>setTimeout(e,3e3)),await Ud(c,l),!((Z.agentBadges||[]).length>e));t++);}catch(e){console.error(`[mintAgentBadge] error:`,e),alert(`Transaction failed. Check console for details.`)}}function Id(){let e=(Z.agentBadges||[]).filter(e=>e.active),t=e.length>0?e.map(e=>`<option value="${e.id}">${e.agent_name} (${e.role}) — ID ${e.id}</option>`).join(``):`<option value="" disabled>No active agents yet</option>`;$({title:`⚡ Pay Company — Auto Split`,hideConfirm:!0,content:`
       <div style="display:flex;flex-direction:column;gap:14px;margin-top:8px;">
 
         <!-- Split preview -->
@@ -732,7 +732,7 @@ CALL_METHOD
         <span style="color:#d2a8ff;">${(t*X.SPLIT_CONTRIBUTOR).toFixed(4)} XRD</span>
         <span style="color:#8b949e;">Platform</span>
         <span style="color:#ffa657;">${(t*X.SPLIT_PLATFORM).toFixed(4)} XRD</span>
-      `}}),document.getElementById(`btn-split-confirm`)?.addEventListener(`click`,async()=>{let e=document.getElementById(`split-amount`)?.value?.trim(),t=document.getElementById(`split-agent-account`)?.value?.trim();if(!e||parseFloat(e)<=0){alert(`Amount must be greater than 0.`);return}if(!t||!t.startsWith(`account_`)){alert(`Invalid agent account address.`);return}Q(),await Id(e,t)})},50)}async function Id(e,t){let n=Z.activeAccount.address,r=X.COMPONENT_ADDRESS,i=X.XRD,a=`
+      `}}),document.getElementById(`btn-split-confirm`)?.addEventListener(`click`,async()=>{let e=document.getElementById(`split-amount`)?.value?.trim(),t=document.getElementById(`split-agent-account`)?.value?.trim();if(!e||parseFloat(e)<=0){alert(`Amount must be greater than 0.`);return}if(!t||!t.startsWith(`account_`)){alert(`Invalid agent account address.`);return}Q(),await Ld(e,t)})},50)}async function Ld(e,t){let n=Z.activeAccount.address,r=X.COMPONENT_ADDRESS,i=X.XRD,a=`
 CALL_METHOD
     Address("${n}")
     "withdraw"
@@ -750,7 +750,7 @@ CALL_METHOD
     Address("${t}")
 ;
 `;console.log(`[depositWithSplit] manifest:
-`,a);try{await Vu(a),await Hd()}catch(e){console.error(`[depositWithSplit] error:`,e),alert(`Transaction failed. Check console for details.`)}}function Ld(){if(!Z.isFounder){alert(`Only the Founder can update revenue splits.`);return}$({title:`📊 Update Revenue Splits`,hideConfirm:!0,content:`
+`,a);try{await Vu(a),await Ud()}catch(e){console.error(`[depositWithSplit] error:`,e),alert(`Transaction failed. Check console for details.`)}}function Rd(){if(!Z.isFounder){alert(`Only the Founder can update revenue splits.`);return}$({title:`📊 Update Revenue Splits`,hideConfirm:!0,content:`
       <div style="display:flex;flex-direction:column;gap:14px;margin-top:8px;">
 
         <p style="font-size:13px;color:#8b949e;margin:0;">
@@ -793,7 +793,7 @@ CALL_METHOD
         </button>
 
       </div>
-    `}),setTimeout(()=>{let e=[`split-treasury`,`split-agent`,`split-contributor`,`split-platform`];function t(){let t=e.reduce((e,t)=>e+(parseFloat(document.getElementById(t)?.value)||0),0),n=document.getElementById(`split-sum-display`);n&&(n.textContent=`${t}%`,n.style.color=t===100?`#3fb950`:`#f85149`)}t(),e.forEach(e=>{document.getElementById(e)?.addEventListener(`input`,t)}),document.getElementById(`btn-splits-confirm`)?.addEventListener(`click`,async()=>{let e=parseFloat(document.getElementById(`split-treasury`)?.value)||0,t=parseFloat(document.getElementById(`split-agent`)?.value)||0,n=parseFloat(document.getElementById(`split-contributor`)?.value)||0,r=parseFloat(document.getElementById(`split-platform`)?.value)||0,i=e+t+n+r;if(i!==100){alert(`Splits must sum to 100%. Current total: ${i}%`);return}Q(),await Rd((e/100).toFixed(2),(t/100).toFixed(2),(n/100).toFixed(2),(r/100).toFixed(2))})},50)}async function Rd(e,t,n,r){let i=`
+    `}),setTimeout(()=>{let e=[`split-treasury`,`split-agent`,`split-contributor`,`split-platform`];function t(){let t=e.reduce((e,t)=>e+(parseFloat(document.getElementById(t)?.value)||0),0),n=document.getElementById(`split-sum-display`);n&&(n.textContent=`${t}%`,n.style.color=t===100?`#3fb950`:`#f85149`)}t(),e.forEach(e=>{document.getElementById(e)?.addEventListener(`input`,t)}),document.getElementById(`btn-splits-confirm`)?.addEventListener(`click`,async()=>{let e=parseFloat(document.getElementById(`split-treasury`)?.value)||0,t=parseFloat(document.getElementById(`split-agent`)?.value)||0,n=parseFloat(document.getElementById(`split-contributor`)?.value)||0,r=parseFloat(document.getElementById(`split-platform`)?.value)||0,i=e+t+n+r;if(i!==100){alert(`Splits must sum to 100%. Current total: ${i}%`);return}Q(),await zd((e/100).toFixed(2),(t/100).toFixed(2),(n/100).toFixed(2),(r/100).toFixed(2))})},50)}async function zd(e,t,n,r){let i=`
 CALL_METHOD
     Address("${Z.activeAccount.address}")
     "create_proof_of_amount"
@@ -809,7 +809,7 @@ CALL_METHOD
     Decimal("${r}")
 ;
 `;console.log(`[updateSplits] manifest:
-`,i);try{await Vu(i),X.SPLIT_TREASURY=parseFloat(e),X.SPLIT_AGENT=parseFloat(t),X.SPLIT_CONTRIBUTOR=parseFloat(n),X.SPLIT_PLATFORM=parseFloat(r),alert(`Revenue splits updated successfully.`)}catch(e){console.error(`[updateSplits] error:`,e),alert(`Transaction failed. Check console for details.`)}}function zd(){$({title:`🚀 Create Your AI Venture Company`,hideConfirm:!0,content:`
+`,i);try{await Vu(i),X.SPLIT_TREASURY=parseFloat(e),X.SPLIT_AGENT=parseFloat(t),X.SPLIT_CONTRIBUTOR=parseFloat(n),X.SPLIT_PLATFORM=parseFloat(r),alert(`Revenue splits updated successfully.`)}catch(e){console.error(`[updateSplits] error:`,e),alert(`Transaction failed. Check console for details.`)}}function Bd(){$({title:`🚀 Create Your AI Venture Company`,hideConfirm:!0,content:`
       <div style="display:flex;flex-direction:column;gap:14px;margin-top:8px;">
 
         <p style="font-size:13px;color:#8b949e;margin:0;">
@@ -884,7 +884,7 @@ CALL_METHOD
         </button>
 
       </div>
-    `}),setTimeout(()=>{let e=[`inst-split-treasury`,`inst-split-agent`,`inst-split-contributor`,`inst-split-platform`];function t(){let t=e.reduce((e,t)=>e+(parseFloat(document.getElementById(t)?.value)||0),0),n=document.getElementById(`inst-split-sum`);n&&(n.textContent=`${t}%`,n.style.color=t===100?`#3fb950`:`#f85149`)}t(),e.forEach(e=>document.getElementById(e)?.addEventListener(`input`,t)),document.getElementById(`btn-instantiate-confirm`)?.addEventListener(`click`,async()=>{let e=document.getElementById(`inst-company-name`)?.value?.trim(),t=document.getElementById(`inst-max-tx`)?.value?.trim(),n=document.getElementById(`inst-multisig`)?.value?.trim(),r=document.getElementById(`inst-daily-cap`)?.value?.trim(),i=document.getElementById(`inst-partner`)?.value?.trim(),a=parseFloat(document.getElementById(`inst-split-treasury`)?.value)||0,o=parseFloat(document.getElementById(`inst-split-agent`)?.value)||0,s=parseFloat(document.getElementById(`inst-split-contributor`)?.value)||0,c=parseFloat(document.getElementById(`inst-split-platform`)?.value)||0;if(!e){alert(`Company name is required.`);return}if(!i||!i.startsWith(`account_`)){alert(`Invalid partner account address.`);return}let l=a+o+s+c;if(l!==100){alert(`Revenue splits must sum to 100%. Current: ${l}%`);return}Q(),await Bd({companyName:e,maxTx:t,multisig:n,dailyCap:r,contributor:i,splitTreasury:(a/100).toFixed(2),splitAgent:(o/100).toFixed(2),splitContrib:(s/100).toFixed(2),splitPlatform:(c/100).toFixed(2)})})},50)}async function Bd({companyName:e,maxTx:t,multisig:n,dailyCap:r,contributor:i,splitTreasury:a,splitAgent:o,splitContrib:s,splitPlatform:c}){let l=Z.activeAccount.address,u=`
+    `}),setTimeout(()=>{let e=[`inst-split-treasury`,`inst-split-agent`,`inst-split-contributor`,`inst-split-platform`];function t(){let t=e.reduce((e,t)=>e+(parseFloat(document.getElementById(t)?.value)||0),0),n=document.getElementById(`inst-split-sum`);n&&(n.textContent=`${t}%`,n.style.color=t===100?`#3fb950`:`#f85149`)}t(),e.forEach(e=>document.getElementById(e)?.addEventListener(`input`,t)),document.getElementById(`btn-instantiate-confirm`)?.addEventListener(`click`,async()=>{let e=document.getElementById(`inst-company-name`)?.value?.trim(),t=document.getElementById(`inst-max-tx`)?.value?.trim(),n=document.getElementById(`inst-multisig`)?.value?.trim(),r=document.getElementById(`inst-daily-cap`)?.value?.trim(),i=document.getElementById(`inst-partner`)?.value?.trim(),a=parseFloat(document.getElementById(`inst-split-treasury`)?.value)||0,o=parseFloat(document.getElementById(`inst-split-agent`)?.value)||0,s=parseFloat(document.getElementById(`inst-split-contributor`)?.value)||0,c=parseFloat(document.getElementById(`inst-split-platform`)?.value)||0;if(!e){alert(`Company name is required.`);return}if(!i||!i.startsWith(`account_`)){alert(`Invalid partner account address.`);return}let l=a+o+s+c;if(l!==100){alert(`Revenue splits must sum to 100%. Current: ${l}%`);return}Q(),await Vd({companyName:e,maxTx:t,multisig:n,dailyCap:r,contributor:i,splitTreasury:(a/100).toFixed(2),splitAgent:(o/100).toFixed(2),splitContrib:(s/100).toFixed(2),splitPlatform:(c/100).toFixed(2)})})},50)}async function Vd({companyName:e,maxTx:t,multisig:n,dailyCap:r,contributor:i,splitTreasury:a,splitAgent:o,splitContrib:s,splitPlatform:c}){let l=Z.activeAccount.address,u=`
 CALL_FUNCTION
     Address("${X.PACKAGE_ADDRESS}")
     "AICompany"
@@ -911,7 +911,7 @@ CALL_METHOD
     None
 ;
 `;console.log(`[instantiate] manifest:
-`,u);try{let e=await Vu(u);alert(`✅ Company created! TX: ${e}\n\nRefresh the page to see your new dashboard.`)}catch(e){console.error(`[instantiate] error:`,e),alert(`Transaction failed. Check console for details.`)}}window.deposit=md,window.revokeBadge=Od,window.increaseLimits=xd,window.resetDailyCap=Cd,window.viewBalances=Dd,window.mintAgentBadge=Md,window.depositWithSplit=Fd,window.updateSplits=Ld,window.checkAndOpenPending=Xu,window.openHow=Fu,window.openAbout=Ru,window.openTerms=Iu,window.openDisclaimer=zu,window.openPrivacy=Lu,window.closeHow=Q,window.closeDisclaimer=Bu,window.closeModal=Q,window.openLimitsModal=Pu,window.freeze=gd,window.unfreeze=vd,window.showInstantiateModal=zd,window.toggleWhitelist=function(){$({title:`Whitelist`,hideConfirm:!0,content:`
+`,u);try{let e=await Vu(u);alert(`✅ Company created! TX: ${e}\n\nRefresh the page to see your new dashboard.`)}catch(e){console.error(`[instantiate] error:`,e),alert(`Transaction failed. Check console for details.`)}}window.deposit=hd,window.revokeBadge=kd,window.increaseLimits=Sd,window.resetDailyCap=wd,window.viewBalances=Od,window.mintAgentBadge=Nd,window.depositWithSplit=Id,window.updateSplits=Rd,window.checkAndOpenPending=Xu,window.openHow=Fu,window.openAbout=Ru,window.openTerms=Iu,window.openDisclaimer=zu,window.openPrivacy=Lu,window.closeHow=Q,window.closeDisclaimer=Bu,window.closeModal=Q,window.openLimitsModal=Pu,window.freeze=_d,window.unfreeze=yd,window.showInstantiateModal=Bd,window.toggleWhitelist=function(){$({title:`Whitelist`,hideConfirm:!0,content:`
       <div style="display:flex;flex-direction:column;gap:12px;margin-top:8px;">
         <button id="btn-add-wl" style="padding:12px;border-radius:8px;background:#276ff5;color:white;border:none;cursor:pointer;font-size:15px;font-weight:600;">
           ➕ Add wallet to whitelist
@@ -935,7 +935,7 @@ CALL_METHOD
           💸 Emergency Withdraw — Recover ALL funds
         </button>
       </div>
-    `}),setTimeout(()=>{document.getElementById(`btn-freeze`)?.addEventListener(`click`,()=>{Q(),gd()}),document.getElementById(`btn-unfreeze`)?.addEventListener(`click`,()=>{Q(),vd()}),document.getElementById(`btn-withdraw`)?.addEventListener(`click`,()=>{Q(),yd()})},50)};var Vd=Tu({dAppDefinitionAddress:X.DAPP_DEFINITION,networkId:X.NETWORK_ID,applicationName:X.APP_NAME,applicationVersion:X.APP_VERSION});Vd.walletApi.setRequestData(Xc.accounts().atLeast(1)),window.onAccountChanged=async function(e){Z.activeAccount=e;let t=Z.componentAddress;if(Z.isFounder=!1,Z.hasAgent=!1,await Du(e.address),!Z.componentAddress&&t&&(Z.componentAddress=t),console.log(`[main] isFounder:`,Z.isFounder,`hasAgent:`,Z.hasAgent),!Z.isFounder&&!Z.hasAgent){Au(!1,!1,!0);return}await Hd(),Au(Z.isFounder,Z.hasAgent)},Vd.walletApi.walletData$.subscribe(async e=>{Z.walletData=e,e?.accounts?.length&&(Z.polling||(ed(e.accounts),await window.onAccountChanged(e.accounts[0])))});async function Hd(e=null,t=null){e&&(Z.componentAddress=e),t!==null&&(Z.isFounder=t);try{let e=(await(await fetch(`${X.GATEWAY_URL}/transaction/preview`,{method:`POST`,headers:{"Content-Type":`application/json`},body:JSON.stringify({manifest:`
+    `}),setTimeout(()=>{document.getElementById(`btn-freeze`)?.addEventListener(`click`,()=>{Q(),_d()}),document.getElementById(`btn-unfreeze`)?.addEventListener(`click`,()=>{Q(),yd()}),document.getElementById(`btn-withdraw`)?.addEventListener(`click`,()=>{Q(),bd()})},50)};var Hd=Tu({dAppDefinitionAddress:X.DAPP_DEFINITION,networkId:X.NETWORK_ID,applicationName:X.APP_NAME,applicationVersion:X.APP_VERSION});Hd.walletApi.setRequestData(Xc.accounts().atLeast(1)),window.onAccountChanged=async function(e){Z.activeAccount=e;let t=Z.componentAddress;if(Z.isFounder=!1,Z.hasAgent=!1,await Du(e.address),!Z.componentAddress&&t&&(Z.componentAddress=t),console.log(`[main] isFounder:`,Z.isFounder,`hasAgent:`,Z.hasAgent),!Z.isFounder&&!Z.hasAgent){Au(!1,!1,!0);return}await Ud(),Au(Z.isFounder,Z.hasAgent)},Hd.walletApi.walletData$.subscribe(async e=>{Z.walletData=e,e?.accounts?.length&&(Z.polling||(ed(e.accounts),await window.onAccountChanged(e.accounts[0])))});async function Ud(e=null,t=null){e&&(Z.componentAddress=e),t!==null&&(Z.isFounder=t);try{let e=(await(await fetch(`${X.GATEWAY_URL}/transaction/preview`,{method:`POST`,headers:{"Content-Type":`application/json`},body:JSON.stringify({manifest:`
 CALL_METHOD
     Address("${Z.componentAddress}")
     "get_company_info"
@@ -945,4 +945,4 @@ CALL_METHOD
     Address("${Z.componentAddress}")
     "get_agent_badges"
 ;
-        `,start_epoch_inclusive:1,end_epoch_exclusive:100,nonce:Math.floor(Math.random()*1e9),signer_public_keys:[],notary_public_key:{key_type:`EddsaEd25519`,key_hex:`0000000000000000000000000000000000000000000000000000000000000001`},notary_is_signatory:!0,tip_percentage:0,flags:{use_free_credit:!0,assume_all_signature_proofs:!0,skip_epoch_check:!0}})})).json())?.receipt?.output?.[0]?.programmatic_json?.elements||[]).map(e=>{let t=e?.fields||[],n=t[1]?.fields||[];return{id:t[0]?.value,agent_name:n[0]?.value,role:n[1]?.value,created_epoch:n[2]?.value,active:n[3]?.value===`true`||n[3]?.value===!0,spending_limit:n[4]?.value,revenue_share:n[5]?.value,account:n[6]?.value??null}}),console.log(`[main] Agent badges loaded:`,Z.agentBadges.length),ju(),Mu(Z.agentBadges),Z.isFounder&&id(),(Z.isFounder||Z.hasAgent)&&Au(Z.isFounder,Z.hasAgent)}catch(e){console.error(`[main] loadCompanyState error:`,e)}}function Ud(){setInterval(async()=>{(Z.isFounder||Z.hasAgent)&&Z.componentAddress&&Yu(await qu())},15e3)}Ud();
+        `,start_epoch_inclusive:1,end_epoch_exclusive:100,nonce:Math.floor(Math.random()*1e9),signer_public_keys:[],notary_public_key:{key_type:`EddsaEd25519`,key_hex:`0000000000000000000000000000000000000000000000000000000000000001`},notary_is_signatory:!0,tip_percentage:0,flags:{use_free_credit:!0,assume_all_signature_proofs:!0,skip_epoch_check:!0}})})).json())?.receipt?.output?.[0]?.programmatic_json?.elements||[]).map(e=>{let t=e?.fields||[],n=t[1]?.fields||[];return{id:t[0]?.value,agent_name:n[0]?.value,role:n[1]?.value,created_epoch:n[2]?.value,active:n[3]?.value===`true`||n[3]?.value===!0,spending_limit:n[4]?.value,revenue_share:n[5]?.value,account:n[6]?.value??null}}),console.log(`[main] Agent badges loaded:`,Z.agentBadges.length),ju(),Mu(Z.agentBadges),Z.isFounder&&id(),(Z.isFounder||Z.hasAgent)&&Au(Z.isFounder,Z.hasAgent)}catch(e){console.error(`[main] loadCompanyState error:`,e)}}function Wd(){setInterval(async()=>{(Z.isFounder||Z.hasAgent)&&Z.componentAddress&&Yu(await qu())},15e3)}Wd();
