@@ -732,7 +732,7 @@ CALL_METHOD
         <span style="color:#d2a8ff;">${(t*X.SPLIT_CONTRIBUTOR).toFixed(4)} XRD</span>
         <span style="color:#8b949e;">Platform</span>
         <span style="color:#ffa657;">${(t*X.SPLIT_PLATFORM).toFixed(4)} XRD</span>
-      `}}),document.getElementById(`btn-split-confirm`)?.addEventListener(`click`,async()=>{let e=document.getElementById(`split-amount`)?.value?.trim(),t=document.getElementById(`split-agent-account`)?.value?.trim();if(!e||parseFloat(e)<=0){alert(`Amount must be greater than 0.`);return}if(!t||!t.startsWith(`account_`)){alert(`Invalid agent account address.`);return}Q(),await Ld(e,t)})},50)}async function Ld(e,t){let n=Z.activeAccount.address,r=X.COMPONENT_ADDRESS,i=X.XRD,a=`
+      `}}),document.getElementById(`btn-split-confirm`)?.addEventListener(`click`,async()=>{let e=document.getElementById(`split-amount`)?.value?.trim(),t=document.getElementById(`split-agent-account`)?.value?.trim();if(!e||parseFloat(e)<=0){alert(`Amount must be greater than 0.`);return}if(!t||!t.startsWith(`account_`)){alert(`Invalid agent account address.`);return}Q(),await Ld(e,t)})},50)}async function Ld(e,t){let n=Z.activeAccount.address,r=Z.componentAddress,i=X.XRD,a=`
 CALL_METHOD
     Address("${n}")
     "withdraw"
@@ -750,7 +750,7 @@ CALL_METHOD
     Address("${t}")
 ;
 `;console.log(`[depositWithSplit] manifest:
-`,a);try{await Vu(a),await Ud()}catch(e){console.error(`[depositWithSplit] error:`,e),alert(`Transaction failed. Check console for details.`)}}function Rd(){if(!Z.isFounder){alert(`Only the Founder can update revenue splits.`);return}$({title:`📊 Update Revenue Splits`,hideConfirm:!0,content:`
+`,a);let o=Z.componentAddress,s=Z.isFounder;try{await Vu(a),Q(),await new Promise(e=>setTimeout(e,3e3)),await Ud(o,s)}catch(e){console.error(`[depositWithSplit] error:`,e),alert(`Transaction failed. Check console for details.`)}}function Rd(){if(!Z.isFounder){alert(`Only the Founder can update revenue splits.`);return}$({title:`📊 Update Revenue Splits`,hideConfirm:!0,content:`
       <div style="display:flex;flex-direction:column;gap:14px;margin-top:8px;">
 
         <p style="font-size:13px;color:#8b949e;margin:0;">
