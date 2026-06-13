@@ -666,7 +666,7 @@ CALL_METHOD
     "${i}"
 ;
 `;console.log(`[mintAgentBadge] manifest:
-`,u);try{await Vu(u),Q();let e=(Z.agentBadges||[]).length;for(let t=0;t<10&&(await new Promise(e=>setTimeout(e,3e3)),await Ud(c,l),!((Z.agentBadges||[]).length>e));t++);}catch(e){console.error(`[mintAgentBadge] error:`,e),alert(`Transaction failed. Check console for details.`)}}function Id(){let e=(Z.agentBadges||[]).filter(e=>e.active),t=e.length>0?e.map(e=>`<option value="${e.id}">${e.agent_name} (${e.role}) — ID ${e.id}</option>`).join(``):`<option value="" disabled>No active agents yet</option>`;$({title:`⚡ Pay Company — Auto Split`,hideConfirm:!0,content:`
+`,u);try{await Vu(u),Q();let e=(Z.agentBadges||[]).length;for(let t=0;t<10&&(await new Promise(e=>setTimeout(e,3e3)),await Ud(c,l),!((Z.agentBadges||[]).length>e));t++);}catch(e){console.error(`[mintAgentBadge] error:`,e),alert(`Transaction failed. Check console for details.`)}}function Id(){$({title:`⚡ Pay Company — Auto Split`,hideConfirm:!0,content:`
       <div style="display:flex;flex-direction:column;gap:14px;margin-top:8px;">
 
         <!-- Split preview -->
@@ -677,9 +677,9 @@ CALL_METHOD
           <div style="display:grid;grid-template-columns:1fr 1fr;gap:6px;font-size:13px;">
             <span style="color:#8b949e;">Treasury</span>
             <span style="color:#3fb950;font-weight:600;">${Math.round(X.SPLIT_TREASURY*100)}%</span>
-            <span style="color:#8b949e;">Active Agent</span>
+            <span style="color:#8b949e;">Agent</span>
             <span style="color:#79c0ff;font-weight:600;">${Math.round(X.SPLIT_AGENT*100)}%</span>
-            <span style="color:#8b949e;">Contributor</span>
+            <span style="color:#8b949e;">Partner</span>
             <span style="color:#d2a8ff;font-weight:600;">${Math.round(X.SPLIT_CONTRIBUTOR*100)}%</span>
             <span style="color:#8b949e;">Platform</span>
             <span style="color:#ffa657;font-weight:600;">${Math.round(X.SPLIT_PLATFORM*100)}%</span>
@@ -690,23 +690,6 @@ CALL_METHOD
           <label style="font-size:12px;color:#8b949e;display:block;margin-bottom:4px;">Amount (XRD)</label>
           <input id="split-amount" type="number" placeholder="10" min="0.01" step="0.01"
             style="width:100%;padding:10px;border-radius:8px;background:#0d1117;border:1px solid #30363d;color:#e6edf3;font-size:14px;box-sizing:border-box;">
-        </div>
-
-        <div>
-          <label style="font-size:12px;color:#8b949e;display:block;margin-bottom:4px;">Active Agent (receives ${Math.round(X.SPLIT_AGENT*100)}%)</label>
-          <select id="split-agent-select"
-            style="width:100%;padding:10px;border-radius:8px;background:#0d1117;border:1px solid #30363d;color:#e6edf3;font-size:14px;box-sizing:border-box;">
-            ${t}
-          </select>
-        </div>
-
-        <div>
-          <label style="font-size:12px;color:#8b949e;display:block;margin-bottom:4px;">Agent Account Address</label>
-          <input id="split-agent-account" type="text" placeholder="account_tdx_2_1..."
-            style="width:100%;padding:10px;border-radius:8px;background:#0d1117;border:1px solid #30363d;color:#e6edf3;font-size:14px;box-sizing:border-box;font-family:monospace;">
-          <p style="font-size:11px;color:#8b949e;margin:4px 0 0;">
-            The account that will receive the agent's revenue share.
-          </p>
         </div>
 
         <!-- Live split calculation -->
@@ -728,11 +711,11 @@ CALL_METHOD
         <span style="color:#3fb950;">${(t*X.SPLIT_TREASURY).toFixed(4)} XRD</span>
         <span style="color:#8b949e;">Agent</span>
         <span style="color:#79c0ff;">${(t*X.SPLIT_AGENT).toFixed(4)} XRD</span>
-        <span style="color:#8b949e;">Contributor</span>
+        <span style="color:#8b949e;">Partner</span>
         <span style="color:#d2a8ff;">${(t*X.SPLIT_CONTRIBUTOR).toFixed(4)} XRD</span>
         <span style="color:#8b949e;">Platform</span>
         <span style="color:#ffa657;">${(t*X.SPLIT_PLATFORM).toFixed(4)} XRD</span>
-      `}}),document.getElementById(`btn-split-confirm`)?.addEventListener(`click`,async()=>{let e=document.getElementById(`split-amount`)?.value?.trim(),t=document.getElementById(`split-agent-account`)?.value?.trim();if(!e||parseFloat(e)<=0){alert(`Amount must be greater than 0.`);return}if(!t||!t.startsWith(`account_`)){alert(`Invalid agent account address.`);return}Q(),await Ld(e,t)})},50)}async function Ld(e,t){let n=Z.activeAccount.address,r=Z.componentAddress,i=X.XRD,a=`
+      `}}),document.getElementById(`btn-split-confirm`)?.addEventListener(`click`,async()=>{let e=document.getElementById(`split-amount`)?.value?.trim();if(!e||parseFloat(e)<=0){alert(`Amount must be greater than 0.`);return}let t=(Z.agentBadges||[]).filter(e=>e.active&&e.account).sort((e,t)=>parseInt(e.id)-parseInt(t.id))[0]?.account||Z.activeAccount.address;Q(),await Ld(e,t)})},50)}async function Ld(e,t){let n=Z.activeAccount.address,r=Z.componentAddress,i=X.XRD,a=`
 CALL_METHOD
     Address("${n}")
     "withdraw"
@@ -750,7 +733,7 @@ CALL_METHOD
     Address("${t}")
 ;
 `;console.log(`[depositWithSplit] manifest:
-`,a);let o=Z.componentAddress,s=Z.isFounder;try{await Vu(a),Q(),await new Promise(e=>setTimeout(e,3e3)),await Ud(o,s)}catch(e){console.error(`[depositWithSplit] error:`,e),alert(`Transaction failed. Check console for details.`)}}function Rd(){if(!Z.isFounder){alert(`Only the Founder can update revenue splits.`);return}$({title:`📊 Update Revenue Splits`,hideConfirm:!0,content:`
+`,a);let o=Z.componentAddress,s=Z.isFounder;try{await Vu(a),await new Promise(e=>setTimeout(e,3e3)),await Ud(o,s)}catch(e){console.error(`[depositWithSplit] error:`,e),alert(`Transaction failed. Check console for details.`)}}function Rd(){if(!Z.isFounder){alert(`Only the Founder can update revenue splits.`);return}$({title:`📊 Update Revenue Splits`,hideConfirm:!0,content:`
       <div style="display:flex;flex-direction:column;gap:14px;margin-top:8px;">
 
         <p style="font-size:13px;color:#8b949e;margin:0;">
